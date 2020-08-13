@@ -9,7 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import { spacing } from '@material-ui/system';
+// import { spacing } from '@material-ui/system';
 // import logo from "./img/cd-image.png"; // with import
 import Box from "@material-ui/core/Box";
 import axios from "axios";
@@ -49,17 +49,10 @@ export default function App() {
     const getUser = async () => {
       const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single');
       // handle success
-      console.log(response.data)
       setReleaseInfo(response.data)
     }
     getUser()
   }, [])
-  // axios
-  // .get("https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single")
-  // .then(function (response) {
-  //   // handle success
-  //   setReleaseInfo(response.data)
-  // })
   const releaseInfoKeys = Object.keys(releaseInfo)
   const classes = useStyles();
   return (
@@ -84,8 +77,8 @@ export default function App() {
           </Toolbar>
         </Box>
       </AppBar>
-      {releaseInfoKeys.map((item) => (
-        <div>
+      {releaseInfoKeys.map((item, index) => (
+        <div key={index}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Typography variant="subtitle2">
@@ -95,8 +88,8 @@ export default function App() {
               </Typography>
             </Grid>
           </Grid>
-          {releaseInfo[item].map((item2) => (
-            <Paper className={classes.paper}>
+          {releaseInfo[item].map((item2, index) => (
+            <Paper className={classes.paper} key={index}>
               <Grid container spacing={2}>
                 <Grid item >
                   <ButtonBase className={classes.image}>
