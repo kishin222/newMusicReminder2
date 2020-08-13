@@ -3,9 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
@@ -61,19 +58,11 @@ export default function App() {
         <Box bgcolor="#FFF">
           <Toolbar 
           >
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
             <Typography variant="h6" className={classes.title} >
               <Box textAlign="center" color="black">
-                リリース情報
+                Release Info
               </Box>
             </Typography>
-            <Button>Login</Button>
           </Toolbar>
         </Box>
       </AppBar>
