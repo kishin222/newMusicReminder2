@@ -48,13 +48,13 @@ export default function App() {
       {
         title: "人生ふたり坂",
         artist: "内川ひろ美",
-        migSrc: "https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg",
+        imgSrc: "https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg",
         price: "1,200円",
       },
       {
         title: "リヴィング・イン・ア・ゴースト・タウン",
         artist: "ザ・ローリング・ストーンズ",
-        migSrc: "https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg",
+        imgSrc: "https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg",
         price: "2,420円",
       },
     ],
@@ -62,13 +62,13 @@ export default function App() {
       {
         title: "人生ふたり坂2",
         artist: "内川ひろ美2",
-        migSrc: "https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg",
+        imgSrc: "https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg",
         price: "1,200円",
       },
       {
         title: "リヴィング・イン・ア・ゴースト・タウン2",
         artist: "ザ・ローリング・ストーンズ2",
-        migSrc: "https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg",
+        imgSrc: "https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg",
         price: "2,420円",
       },
     ],
@@ -77,10 +77,10 @@ export default function App() {
   .get("https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single")
   .then(function (response) {
     // handle success
-    setReleaseInfo(response)
+    setReleaseInfo(response.data)
+    // console.log(response)
   })
   const releaseInfoKeys = Object.keys(releaseInfo)
-  console.log(releaseInfoKeys)
   const classes = useStyles();
   // const dates = Object.keys(releaseInfo)
   // const items = dates.map(date => {
@@ -95,24 +95,25 @@ export default function App() {
   // const aiueo2 = Object.keys(aiueo)
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="#FFF">
-        <Toolbar
-        >
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
+      <AppBar position="static" >
+        <Box bgcolor="#FFF">
+          <Toolbar 
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title} >
-            <Box textAlign="center">
-              リリース情報
-            </Box>
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title} >
+              <Box textAlign="center" color="black">
+                リリース情報
+              </Box>
+            </Typography>
+            <Button>Login</Button>
+          </Toolbar>
+        </Box>
       </AppBar>
       {releaseInfoKeys.map((item) => (
         <div>
@@ -130,7 +131,7 @@ export default function App() {
               <Grid container spacing={2}>
                 <Grid item >
                   <ButtonBase className={classes.image}>
-                    <img src={item2.migSrc} alt="img" height="100%" />
+                    <img src={item2.imgSrc} alt="img" height="100%" />
                   </ButtonBase>
                 </Grid>
                 <Grid item xs={9} sm container>
