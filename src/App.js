@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -50,7 +50,7 @@ export default function App() {
       const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single');
       // handle success
       console.log(response.data)
-      // setReleaseInfo(response.data)
+      setReleaseInfo(response.data)
     }
     getUser()
   }, [])
