@@ -44,55 +44,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const [releaseInfo, setReleaseInfo] = useState({
-    "2020/07/03": [
-      {
-        title: "人生ふたり坂",
-        artist: "内川ひろ美",
-        imgSrc: "https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg",
-        price: "1,200円",
-      },
-      {
-        title: "リヴィング・イン・ア・ゴースト・タウン",
-        artist: "ザ・ローリング・ストーンズ",
-        imgSrc: "https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg",
-        price: "2,420円",
-      },
-    ],
-    "2020/07/12": [
-      {
-        title: "人生ふたり坂2",
-        artist: "内川ひろ美2",
-        imgSrc: "https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg",
-        price: "1,200円",
-      },
-      {
-        title: "リヴィング・イン・ア・ゴースト・タウン2",
-        artist: "ザ・ローリング・ストーンズ2",
-        imgSrc: "https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg",
-        price: "2,420円",
-      },
-    ],
   })
   axios
   .get("https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single")
   .then(function (response) {
     // handle success
     setReleaseInfo(response.data)
-    // console.log(response)
   })
   const releaseInfoKeys = Object.keys(releaseInfo)
   const classes = useStyles();
-  // const dates = Object.keys(releaseInfo)
-  // const items = dates.map(date => {
-  //   return releaseInfo[date]
-  // }
-  // )
-  // const aiueo = {
-  //   "a": [{ k: "ka", s: "sa", t: "ta" }],
-  //   "i": [{ k: "ki", s: "si", t: "ti" }],
-  //   "u": [{ k: "ku", s: "su", t: "tu" }],
-  // }
-  // const aiueo2 = Object.keys(aiueo)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
