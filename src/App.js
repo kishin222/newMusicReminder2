@@ -61,19 +61,11 @@ export default function App() {
         <Box bgcolor="#FFF">
           <Toolbar 
           >
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
             <Typography variant="h6" className={classes.title} >
               <Box textAlign="center" color="black">
-                リリース情報
+                Release Info
               </Box>
             </Typography>
-            <Button>Login</Button>
           </Toolbar>
         </Box>
       </AppBar>
