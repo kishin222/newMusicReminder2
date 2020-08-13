@@ -10,14 +10,13 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 // import logo from "./img/cd-image.png"; // with import
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-
+import { BrowserRouter, Route, Link, } from 'react-router-dom'
+import IconButton from "@material-ui/core/IconButton";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
@@ -39,7 +38,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function App() {
+const App = () => (
+  <BrowserRouter>
+    <div>
+      <Route exact path='/' component={Home} />
+      <Route path='/artist' component={Artist} />
+      <Route path='/friends' component={Friends} />
+    </div>
+  </BrowserRouter>
+)
+
+const Artist = () => (
+  <div>
+    <h2>About</h2>
+    <p>フレンズに投票するページです</p>
+  </div>
+)
+const Friends = () => (
+  <div>
+    <h2>Friends</h2>
+    <p>ここにフレンズのリストを書きます</p>
+  </div>
+)
+
+export default function Home() {
   const [releaseInfo, setReleaseInfo] = useState({
   })
   useEffect(() => {
@@ -56,13 +78,22 @@ export default function App() {
     <div className={classes.root}>
       <AppBar position="static" >
         <Box bgcolor="#FFF">
-          <Toolbar 
-          >
+          <Toolbar>
             <Typography variant="h6" className={classes.title} >
               <Box textAlign="center" color="black">
                 Release Info
               </Box>
             </Typography>
+            <BrowserRouter>
+              <Link to={Artist}>
+                <IconButton
+                  edge="start"
+                  aria-label="artist"
+                >
+                  <AccountBoxIcon />
+                </IconButton>
+              </Link>
+            </BrowserRouter>
           </Toolbar>
         </Box>
       </AppBar>
