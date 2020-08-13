@@ -45,12 +45,21 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const [releaseInfo, setReleaseInfo] = useState({
   })
-  axios
-  .get("https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single")
-  .then(function (response) {
-    // handle success
-    setReleaseInfo(response.data)
-  })
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single');
+      // handle success
+      console.log(response.data)
+      // setReleaseInfo(response.data)
+    }
+    getUser()
+  }, [])
+  // axios
+  // .get("https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single")
+  // .then(function (response) {
+  //   // handle success
+  //   setReleaseInfo(response.data)
+  // })
   const releaseInfoKeys = Object.keys(releaseInfo)
   const classes = useStyles();
   return (
