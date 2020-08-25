@@ -9,7 +9,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
-import IconButton from "@material-ui/core/IconButton";
+// import IconButton from "@material-ui/core/IconButton";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
 const useStyles = makeStyles((theme) => ({
@@ -111,6 +111,10 @@ const Home = () => {
 
 const Artist = () => {
   const classes = useStyles();
+  const [artistList, setArtistList] = useState(
+    ['ほげ', 'ふが', 'ぴよ']
+  )
+  const artistListKeys = Object.keys(artistList)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -129,6 +133,11 @@ const Artist = () => {
           </Toolbar>
         </Box>
       </AppBar>
+      {artistListKeys.map((item, index) => (
+        <div key={index}>
+          {item}
+        </div>
+      ))}
     </div>
   );
 }
