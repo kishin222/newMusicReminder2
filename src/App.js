@@ -111,7 +111,7 @@ const Home = () => {
 
 const Artist = () => {
   const classes = useStyles();
-  const [artistList, setArtistList] = useState(
+  const [artistList] = useState(
     [
       {
         name: '瑛人',
@@ -177,13 +177,13 @@ const Artist = () => {
       <AppBar position="static" >
         <Box bgcolor="#FFF">
           <Toolbar>
-            <Link to="/">
-              <Typography variant="h6" className={classes.title} >
+            <Typography variant="h6" className={classes.title} >
+              <Link to="/">
                 <Box textAlign="center" color="black">
                   Release Info
             </Box>
-              </Typography>
-            </Link>
+              </Link>
+            </Typography>
             <Link to="/artist">
               <AccountBoxIcon />
             </Link>
@@ -192,25 +192,25 @@ const Artist = () => {
       </AppBar>
       {artistList.map((item, index) => (
         <Paper className={classes.paper} key={index}>
-        <Grid container spacing={2}>
-          <Grid item >
-            <ButtonBase className={classes.image}>
-              <img src={item.imgSrc} alt="img" height="100%" />
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={9} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography variant="caption">
-                  <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
-                    {item.name}
-                  </Box>
-                </Typography>
+          <Grid container spacing={2}>
+            <Grid item >
+              <ButtonBase className={classes.image}>
+                <img src={item.imgSrc} alt="img" height="100%" />
+              </ButtonBase>
+            </Grid>
+            <Grid item xs={9} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Typography variant="caption">
+                    <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                      {item.name}
+                    </Box>
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
       ))}
     </div>
   );
@@ -221,7 +221,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <div>
-          <Route exact path="/" exact component={Home} />
+          <Route path="/" exact component={Home} />
           <Route path="/artist" component={Artist} />
         </div>
       </BrowserRouter>
