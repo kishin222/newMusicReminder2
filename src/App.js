@@ -9,8 +9,9 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
-// import IconButton from "@material-ui/core/IconButton";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import CardActionArea from '@material-ui/core/CardActionArea';
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -171,9 +172,14 @@ const Artist = () => {
       },
     ]
   )
-  // const artistListKeys = Object.keys(artistList)
+  localStorage.setItem('newMusicReminder', '');
+  var ls = localStorage.getItem("newMusicReminder")
+  console.log(ls)
   return (
     <div className={classes.root}>
+      <Button onClick={() => {
+        localStorage.setItem('newMusicReminder')
+      }}>Clear</Button>
       <AppBar position="static" >
         <Box bgcolor="#FFF">
           <Toolbar>
@@ -191,26 +197,35 @@ const Artist = () => {
         </Box>
       </AppBar>
       {artistList.map((item, index) => (
-        <Paper className={classes.paper} key={index}>
-          <Grid container spacing={2}>
-            <Grid item >
-              <ButtonBase className={classes.image}>
-                <img src={item.imgSrc} alt="img" height="100%" />
-              </ButtonBase>
-            </Grid>
-            <Grid item xs={9} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <Typography variant="caption">
-                    <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
-                      {item.name}
-                    </Box>
-                  </Typography>
+        <CardActionArea onClick={() => {
+         const artistsString = localStorage.getItem(`newMusicReminder`)
+         console.log(artistsString)
+          const artists = artistsString.split(',')
+         const newArtists = [...artists, item.name]
+         console.log('newArtists',newArtists)
+          localStorage.setItem('newMusicReminder', newArtists.join(','))
+        }}>
+          <Paper className={classes.paper} key={index}>
+            <Grid container spacing={2}>
+              <Grid item >
+                <ButtonBase className={classes.image}>
+                  <img src={item.imgSrc} alt="img" height="100%" />
+                </ButtonBase>
+              </Grid>
+              <Grid item xs={9} sm container>
+                <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs>
+                    <Typography variant="caption">
+                      <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                        {item.name}
+                      </Box>
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        </CardActionArea>
       ))}
     </div>
   );
