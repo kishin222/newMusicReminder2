@@ -112,69 +112,17 @@ const Home = () => {
 
 const Artist = () => {
   const classes = useStyles();
-  const [artistList] = useState(
-    [
-      {
-        name: '瑛人',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: '米津玄師',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-      {
-        name: '東京事変',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: '中島みゆき',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-      {
-        name: 'ナナヲアカリ',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: 'DISH//',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-      {
-        name: 'GLAY',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: 'YOASOBI',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-      {
-        name: 'BUMP OF CHICKEN',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: 'ヨルシカ',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-      {
-        name: 'ONE OK ROCK',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: '青葉市子',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-      {
-        name: 'Linked Horizon',
-        imgSrc: 'https://m.media-amazon.com/images/I/318h4iu0jKL._SL160_.jpg'
-      },
-      {
-        name: 'TUBE',
-        imgSrc: 'https://m.media-amazon.com/images/I/51Mv2OA7hAL._SL160_.jpg'
-      },
-    ]
-  )
+  const [artistList, setArtistList] = useState([])
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/artists');
+      // handle success
+      setArtistList(response.data)
+    }
+    getUser()
+  }, [])
   localStorage.setItem('newMusicReminder', '');
   var ls = localStorage.getItem("newMusicReminder")
-  console.log(ls)
   return (
     <div className={classes.root}>
       <Button onClick={() => {
@@ -198,11 +146,9 @@ const Artist = () => {
       </AppBar>
       {artistList.map((item, index) => (
         <CardActionArea onClick={() => {
-         const artistsString = localStorage.getItem(`newMusicReminder`)
-         console.log(artistsString)
+          const artistsString = localStorage.getItem(`newMusicReminder`)
           const artists = artistsString.split(',')
-         const newArtists = [...artists, item.name]
-         console.log('newArtists',newArtists)
+          const newArtists = [...artists, item.name]
           localStorage.setItem('newMusicReminder', newArtists.join(','))
         }}>
           <Paper className={classes.paper} key={index}>
