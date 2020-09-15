@@ -11,7 +11,7 @@ import axios from "axios";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
-import { Button } from "@material-ui/core";
+// import { Butto n } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,9 +125,6 @@ const Artist = () => {
   var ls = localStorage.getItem("newMusicReminder")
   return (
     <div className={classes.root}>
-      <Button onClick={() => {
-        localStorage.setItem('newMusicReminder')
-      }}>Clear</Button>
       <AppBar position="static" >
         <Box bgcolor="#FFF">
           <Toolbar>
@@ -145,13 +142,13 @@ const Artist = () => {
         </Box>
       </AppBar>
       {artistList.map((item, index) => (
-        <CardActionArea onClick={() => {
+        <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
           const artists = artistsString.split(',')
           const newArtists = [...artists, item.name]
           localStorage.setItem('newMusicReminder', newArtists.join(','))
         }}>
-          <Paper className={classes.paper} key={index}>
+          <Paper className={classes.paper}>
             <Grid container spacing={2}>
               <Grid item >
                 <ButtonBase className={classes.image}>
