@@ -121,8 +121,8 @@ const Artist = () => {
     }
     getUser()
   }, [])
-  localStorage.setItem('newMusicReminder', '');
-  var ls = localStorage.getItem("newMusicReminder")
+  // localStorage.setItem('newMusicReminder', '');
+  // var ls = localStorage.getItem("newMusicReminder")
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -141,6 +141,7 @@ const Artist = () => {
           </Toolbar>
         </Box>
       </AppBar>
+      {/* <Box>aaa</Box> */}
       {artistList.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
