@@ -57,7 +57,7 @@ const Home = () => {
           <Toolbar>
             <Typography variant="h6" className={classes.title} >
               <Box textAlign="center" color="black">
-                Release Info
+                Music Release Info
               </Box>
             </Typography>
             <Link to="/artist">
@@ -121,8 +121,9 @@ const Artist = () => {
     }
     getUser()
   }, [])
-  // localStorage.setItem('newMusicReminder', '');
-  // var ls = localStorage.getItem("newMusicReminder")
+  localStorage.setItem('newMusicReminder', '');
+  var lsArtistsString = localStorage.getItem("newMusicReminder")
+  console.log("a",lsArtistsString)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -131,8 +132,8 @@ const Artist = () => {
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
-                  Release Info
-            </Box>
+                  Music Release Info
+                </Box>
               </Link>
             </Typography>
             <Link to="/artist">
@@ -141,7 +142,8 @@ const Artist = () => {
           </Toolbar>
         </Box>
       </AppBar>
-      {/* <Box>aaa</Box> */}
+      <Box>お気に入りアーティスト</Box>
+      <Box>全アーティスト</Box>
       {artistList.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
