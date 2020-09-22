@@ -158,7 +158,15 @@ const Artist = () => {
           </Toolbar>
         </Box>
       </AppBar>
-      <Box>お気に入りアーティスト</Box>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+              お気に入りアーティスト
+                </Box>
+          </Typography>
+        </Grid>
+      </Grid>
       {artisistsUnique.map((item, index) => (
         <CardActionArea key={index}>
           <Paper className={classes.paper}>
@@ -183,17 +191,25 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
-      <Box>全アーティスト</Box>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+              全アーティスト
+                </Box>
+          </Typography>
+        </Grid>
+      </Grid>
       {artistList.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
           const artists = JSON.parse(artistsString)
-          console.log('artists',artists)
-          const newArtists = [...artists, 
-            {
-              name: item.name,
-              imgSrc: item.imgSrc
-            }
+          console.log('artists', artists)
+          const newArtists = [...artists,
+          {
+            name: item.name,
+            imgSrc: item.imgSrc
+          }
           ]
           const newArtistsJson = JSON.stringify(newArtists)
           console.log(newArtistsJson)
