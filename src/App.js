@@ -107,7 +107,7 @@ const Home = () => {
         </div>
       ))}
       <Button href='https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single'>
-        リストが表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
       </Button>
     </div>
   );
@@ -208,7 +208,7 @@ const Artist = () => {
         </CardActionArea>
       ))}
       <Button href='https://safe-headland-46948.herokuapp.com/api/v1/artists'>
-        リストが表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+        アーティスト一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
       </Button>
     </div>
   );
