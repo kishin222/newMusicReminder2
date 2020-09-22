@@ -11,7 +11,8 @@ import axios from "axios";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
-// import { Butto n } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +43,7 @@ const Home = () => {
   })
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single');
+      const response = await axios.get('https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single');
       // handle success
       setReleaseInfo(response.data)
     }
@@ -57,7 +58,7 @@ const Home = () => {
           <Toolbar>
             <Typography variant="h6" className={classes.title} >
               <Box textAlign="center" color="black">
-                Release Info
+                Music Release Info
               </Box>
             </Typography>
             <Link to="/artist">
@@ -85,7 +86,7 @@ const Home = () => {
                     <img src={item2.imgSrc} alt="img" height="100%" />
                   </ButtonBase>
                 </Grid>
-                <Grid item xs={9} sm container>
+                <Grid item xs={9} sm container alignItems="center" justify="center">
                   <Grid item xs container direction="column" spacing={2}>
                     <Grid item xs>
                       <Typography variant="caption">
@@ -106,6 +107,9 @@ const Home = () => {
           ))}
         </div>
       ))}
+      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
+        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+      </Button>
     </div>
   );
 }
@@ -115,14 +119,32 @@ const Artist = () => {
   const [artistList, setArtistList] = useState([])
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/artists');
+      const response = await axios.get('https://new-music-notification-01.an.r.appspot.com/api/v1/artists');
       // handle success
       setArtistList(response.data)
     }
     getUser()
   }, [])
-  // localStorage.setItem('newMusicReminder', '');
-  // var ls = localStorage.getItem("newMusicReminder")
+  const artisistsNoDoyo = artistList.filter(function (a) {
+    return a.name !== "童謡・唱歌";
+  })
+  if (!localStorage.getItem("newMusicReminder")) {
+    localStorage.setItem("newMusicReminder", '[]')
+  }
+  //localStorageからお気に入りアーティストをget
+  const lsArtistsString = localStorage.getItem("newMusicReminder")
+  const artisistsFavorite = JSON.parse(lsArtistsString)
+  const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+    return a.name !== "";
+  })
+  const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+    if (!a.some((e) => e.name === v.name)) {
+      a.push(v);
+    }
+    return a;
+  }, [])
+  const newArtistsJson = JSON.stringify(artisistsUnique)
+  localStorage.setItem('newMusicReminder', newArtistsJson)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -131,8 +153,8 @@ const Artist = () => {
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
-                  Release Info
-            </Box>
+                  Music Release Info
+                </Box>
               </Link>
             </Typography>
             <Link to="/artist">
@@ -141,16 +163,87 @@ const Artist = () => {
           </Toolbar>
         </Box>
       </AppBar>
-      {/* <Box>aaa</Box> */}
-      {artistList.map((item, index) => (
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+              お気に入りアーティスト
+                </Box>
+          </Typography>
+        </Grid>
+      </Grid>
+      {artisistsUnique.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
-          const artists = artistsString.split(',')
-          const newArtists = [...artists, item.name]
-          localStorage.setItem('newMusicReminder', newArtists.join(','))
+          const artists = JSON.parse(artistsString)
+          const artisistsDeleted = artists.filter(function (a) {
+            return a.name !== item.name;
+          })
+          const newArtistsJson = JSON.stringify(artisistsDeleted)
+          localStorage.setItem('newMusicReminder', newArtistsJson)
         }}>
           <Paper className={classes.paper}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center" justify="center">
+              <Grid item >
+                <ButtonBase className={classes.image}>
+                  <img src={item.imgSrc} alt="img" height="100%" />
+                </ButtonBase>
+              </Grid>
+              <Grid item xs={8} sm container>
+                <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs>
+                    <Typography variant="caption">
+                      <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                        {item.name}
+                      </Box>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <ClearIcon></ClearIcon>
+            </Grid>
+          </Paper>
+        </CardActionArea>
+      ))}
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+              全アーティスト
+                </Box>
+          </Typography>
+        </Grid>
+      </Grid>
+      {artisistsNoDoyo.map((item, index) => (
+        <CardActionArea key={index} onClick={() => {
+          //localStorageに新しいお気に入りアーティストをset
+          const artistsString = localStorage.getItem(`newMusicReminder`)
+          const artists = JSON.parse(artistsString)
+          console.log('artists', artists)
+          const newArtists = [...artists,
+          {
+            name: item.name,
+            imgSrc: item.imgSrc
+          }
+          ]
+          const newArtistsJson = JSON.stringify(newArtists)
+          console.log(newArtistsJson)
+          localStorage.setItem('newMusicReminder', newArtistsJson)
+          // //localStorageからお気に入りアーティストをget
+          // const lsArtistsString = localStorage.getItem("newMusicReminder")
+          // const artisistsFavorite = JSON.parse(lsArtistsString)
+          // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+          //   return a.name !== "";
+          // })
+          // const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+          //   if (!a.some((e) => e.name === v.name)) {
+          //     a.push(v);
+          //   }
+          //   return a;
+          // }, [])
+        }}>
+          <Paper className={classes.paper}>
+            <Grid container spacing={2}  alignItems="center" justify="center">
               <Grid item >
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
@@ -171,6 +264,9 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
+      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/artists'>
+        アーティスト一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+      </Button>
     </div>
   );
 }
