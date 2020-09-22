@@ -121,9 +121,17 @@ const Artist = () => {
     }
     getUser()
   }, [])
-  localStorage.setItem('newMusicReminder', '');
-  var lsArtistsString = localStorage.getItem("newMusicReminder")
-  console.log("a",lsArtistsString)
+  // localStorage.setItem("newMusicReminder", '')
+  if (!localStorage.getItem("newMusicReminder")) {
+    localStorage.setItem("newMusicReminder", '')
+  }
+  const lsArtistsString = localStorage.getItem("newMusicReminder")
+  const artisistsFavorite = lsArtistsString.split(',')
+  const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+    return a !== "";
+  })
+  const artisistsUnique = Array.from(new Set(artisistsNoBlank))
+  console.log(artisistsUnique)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -143,6 +151,30 @@ const Artist = () => {
         </Box>
       </AppBar>
       <Box>お気に入りアーティスト</Box>
+      {artisistsUnique.map((item, index) => (
+        <CardActionArea key={index}>
+          <Paper className={classes.paper}>
+            <Grid container spacing={2}>
+              {/* <Grid item >
+                <ButtonBase className={classes.image}>
+                  <img src={item.imgSrc} alt="img" height="100%" />
+                </ButtonBase>
+              </Grid> */}
+              <Grid item xs={9} sm container>
+                <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs>
+                    <Typography variant="caption">
+                      <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                        {item}
+                      </Box>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Paper>
+        </CardActionArea>
+      ))}
       <Box>全アーティスト</Box>
       {artistList.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
