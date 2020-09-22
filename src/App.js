@@ -124,22 +124,25 @@ const Artist = () => {
     }
     getUser()
   }, [])
+  const artisistsNoDoyo = artistList.filter(function (a) {
+    return a.name !== "童謡・唱歌" ;
+  })
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '[]')
   }
   const lsArtistsString = localStorage.getItem("newMusicReminder")
   const artisistsFavorite = JSON.parse(lsArtistsString)
   const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-    return a.name !== "";
+    return a.name !== "" ;
   })
-  // const artisistsUnique = Array.from(new Set(artisistsNoBlank.name))
-  // console.log(artisistsUnique)
   const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
     if (!a.some((e) => e.name === v.name)) {
       a.push(v);
     }
     return a;
-  }, []);
+  }, [])
+  const newArtistsJson = JSON.stringify(artisistsUnique)
+  localStorage.setItem('newMusicReminder', newArtistsJson)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -200,7 +203,7 @@ const Artist = () => {
           </Typography>
         </Grid>
       </Grid>
-      {artistList.map((item, index) => (
+      {artisistsNoDoyo.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
           const artists = JSON.parse(artistsString)
