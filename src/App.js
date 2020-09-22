@@ -42,7 +42,7 @@ const Home = () => {
   })
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single');
+      const response = await axios.get('https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single');
       // handle success
       setReleaseInfo(response.data)
     }
@@ -106,7 +106,7 @@ const Home = () => {
           ))}
         </div>
       ))}
-      <Button href='https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single'>
+      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
         新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
       </Button>
     </div>
@@ -118,22 +118,28 @@ const Artist = () => {
   const [artistList, setArtistList] = useState([])
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get('https://safe-headland-46948.herokuapp.com/api/v1/artists');
+      const response = await axios.get('https://new-music-notification-01.an.r.appspot.com/api/v1/artists');
       // handle success
       setArtistList(response.data)
     }
     getUser()
   }, [])
   if (!localStorage.getItem("newMusicReminder")) {
-    localStorage.setItem("newMusicReminder", '')
+    localStorage.setItem("newMusicReminder", '[]')
   }
   const lsArtistsString = localStorage.getItem("newMusicReminder")
-  const artisistsFavorite = lsArtistsString.split(',')
+  const artisistsFavorite = JSON.parse(lsArtistsString)
   const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-    return a !== "";
+    return a.name !== "";
   })
-  const artisistsUnique = Array.from(new Set(artisistsNoBlank))
-  console.log(artisistsUnique)
+  // const artisistsUnique = Array.from(new Set(artisistsNoBlank.name))
+  // console.log(artisistsUnique)
+  const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+    if (!a.some((e) => e.name === v.name)) {
+      a.push(v);
+    }
+    return a;
+  }, []);
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -157,17 +163,17 @@ const Artist = () => {
         <CardActionArea key={index}>
           <Paper className={classes.paper}>
             <Grid container spacing={2}>
-              {/* <Grid item >
+              <Grid item >
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
                 </ButtonBase>
-              </Grid> */}
+              </Grid>
               <Grid item xs={9} sm container>
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography variant="caption">
                       <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
-                        {item}
+                        {item.name}
                       </Box>
                     </Typography>
                   </Grid>
@@ -181,9 +187,18 @@ const Artist = () => {
       {artistList.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           const artistsString = localStorage.getItem(`newMusicReminder`)
-          const artists = artistsString.split(',')
-          const newArtists = [...artists, item.name]
-          localStorage.setItem('newMusicReminder', newArtists.join(','))
+          const artists = JSON.parse(artistsString)
+          console.log('artists',artists)
+          const newArtists = [...artists, 
+            {
+              name: item.name,
+              imgSrc: item.imgSrc
+            }
+          ]
+          const newArtistsJson = JSON.stringify(newArtists)
+          console.log(newArtistsJson)
+          localStorage.setItem('newMusicReminder', newArtistsJson)
+          // localStorage.setItem('newMusicReminder', newArtistsJson.join(','))
         }}>
           <Paper className={classes.paper}>
             <Grid container spacing={2}>
@@ -207,7 +222,7 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
-      <Button href='https://safe-headland-46948.herokuapp.com/api/v1/artists'>
+      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/artists'>
         アーティスト一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
       </Button>
     </div>
