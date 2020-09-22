@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { Button } from "@material-ui/core";
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +86,7 @@ const Home = () => {
                     <img src={item2.imgSrc} alt="img" height="100%" />
                   </ButtonBase>
                 </Grid>
-                <Grid item xs={9} sm container>
+                <Grid item xs={9} sm container alignItems="center" justify="center">
                   <Grid item xs container direction="column" spacing={2}>
                     <Grid item xs>
                       <Typography variant="caption">
@@ -125,15 +126,16 @@ const Artist = () => {
     getUser()
   }, [])
   const artisistsNoDoyo = artistList.filter(function (a) {
-    return a.name !== "童謡・唱歌" ;
+    return a.name !== "童謡・唱歌";
   })
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '[]')
   }
+  //localStorageからお気に入りアーティストをget
   const lsArtistsString = localStorage.getItem("newMusicReminder")
   const artisistsFavorite = JSON.parse(lsArtistsString)
   const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-    return a.name !== "" ;
+    return a.name !== "";
   })
   const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
     if (!a.some((e) => e.name === v.name)) {
@@ -171,15 +173,23 @@ const Artist = () => {
         </Grid>
       </Grid>
       {artisistsUnique.map((item, index) => (
-        <CardActionArea key={index}>
+        <CardActionArea key={index} onClick={() => {
+          const artistsString = localStorage.getItem(`newMusicReminder`)
+          const artists = JSON.parse(artistsString)
+          const artisistsDeleted = artists.filter(function (a) {
+            return a.name !== item.name;
+          })
+          const newArtistsJson = JSON.stringify(artisistsDeleted)
+          localStorage.setItem('newMusicReminder', newArtistsJson)
+        }}>
           <Paper className={classes.paper}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} alignItems="center" justify="center">
               <Grid item >
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
                 </ButtonBase>
               </Grid>
-              <Grid item xs={9} sm container>
+              <Grid item xs={8} sm container>
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography variant="caption">
@@ -190,6 +200,7 @@ const Artist = () => {
                   </Grid>
                 </Grid>
               </Grid>
+              <ClearIcon></ClearIcon>
             </Grid>
           </Paper>
         </CardActionArea>
@@ -205,6 +216,7 @@ const Artist = () => {
       </Grid>
       {artisistsNoDoyo.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
+          //localStorageに新しいお気に入りアーティストをset
           const artistsString = localStorage.getItem(`newMusicReminder`)
           const artists = JSON.parse(artistsString)
           console.log('artists', artists)
@@ -217,10 +229,21 @@ const Artist = () => {
           const newArtistsJson = JSON.stringify(newArtists)
           console.log(newArtistsJson)
           localStorage.setItem('newMusicReminder', newArtistsJson)
-          // localStorage.setItem('newMusicReminder', newArtistsJson.join(','))
+          //localStorageからお気に入りアーティストをget
+          const lsArtistsString = localStorage.getItem("newMusicReminder")
+          const artisistsFavorite = JSON.parse(lsArtistsString)
+          const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+            return a.name !== "";
+          })
+          const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+            if (!a.some((e) => e.name === v.name)) {
+              a.push(v);
+            }
+            return a;
+          }, [])
         }}>
           <Paper className={classes.paper}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2}  alignItems="center" justify="center">
               <Grid item >
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
