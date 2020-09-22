@@ -11,7 +11,7 @@ import axios from "axios";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
-// import { Butto n } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,6 +106,9 @@ const Home = () => {
           ))}
         </div>
       ))}
+      <Button href='https://safe-headland-46948.herokuapp.com/api/v1/releaseInfo/single'>
+        リストが表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+      </Button>
     </div>
   );
 }
@@ -121,7 +124,6 @@ const Artist = () => {
     }
     getUser()
   }, [])
-  // localStorage.setItem("newMusicReminder", '')
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '')
   }
@@ -205,6 +207,9 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
+      <Button href='https://safe-headland-46948.herokuapp.com/api/v1/artists'>
+        リストが表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+      </Button>
     </div>
   );
 }
