@@ -13,6 +13,7 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { Button } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -209,7 +210,7 @@ const Artist = () => {
         <Grid item xs={12}>
           <Typography variant="subtitle2">
             <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
-              全アーティスト
+              アーティスト一覧
                 </Box>
           </Typography>
         </Grid>
@@ -259,6 +260,7 @@ const Artist = () => {
                     </Typography>
                   </Grid>
                 </Grid>
+                <FavoriteBorderIcon></FavoriteBorderIcon>
               </Grid>
             </Grid>
           </Paper>
