@@ -311,7 +311,13 @@ const Favorite = () => {
     releaseInfoFavorite[releaseDate] = favoriteReleaseSongPerDates[index]
     releaseDate = favoriteReleaseSongPerDates[index]
   });
-  console.log(releaseInfoFavorite)
+  // console.log(releaseInfoFavorite)
+  //新曲がない日を除外したリストを作る
+  // const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
+  //   // console.log(releaseInfoFavorite)
+  //   return releaseInfoFavorite[releaseDatesSplit].length !== 0
+  // })
+  // console.log(favoriteReleaseSongPerValidDates)
   const classes = useStyles();
   return (
     <div className={classes.root}>
