@@ -237,18 +237,6 @@ const Artist = () => {
           ]
           const newArtistsJson = JSON.stringify(newArtists)
           localStorage.setItem('newMusicReminder', newArtistsJson)
-          // //localStorageからお気に入りアーティストをget
-          // const lsArtistsString = localStorage.getItem("newMusicReminder")
-          // const artisistsFavorite = JSON.parse(lsArtistsString)
-          // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-          //   return a.name !== "";
-          // })
-          // const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
-          //   if (!a.some((e) => e.name === v.name)) {
-          //     a.push(v);
-          //   }
-          //   return a;
-          // }, [])
         }}>
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
@@ -295,6 +283,7 @@ const Favorite = () => {
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
   const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
+    console.log(releaseDatesSplit)
     return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
@@ -312,10 +301,13 @@ const Favorite = () => {
     releaseDate = favoriteReleaseSongPerDates[index]
   });
   // console.log(releaseInfoFavorite)
-  //新曲がない日を除外したリストを作る
+  // //新曲がない日を除外したリストを作る
   // const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-  //   // console.log(releaseInfoFavorite)
-  //   return releaseInfoFavorite[releaseDatesSplit].length !== 0
+  //   console.log(releaseDatesArray)
+  //   return releaseDatesArray[releaseDatesSplit].filter(function (releaseDatesSplit) {
+  //     return releaseInfoFavorite[releaseDatesSplit].length !== 0
+  //   })
+  //   // return releaseInfoFavorite[releaseDatesSplit].length !== 0
   // })
   // console.log(favoriteReleaseSongPerValidDates)
   const classes = useStyles();
