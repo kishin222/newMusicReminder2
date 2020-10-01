@@ -294,7 +294,7 @@ const Favorite = () => {
 
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
-  const releaseInfoMap = releaseDatesArray.map((releaseDatesSplit, index) => {
+  const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
     return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
@@ -302,12 +302,16 @@ const Favorite = () => {
       const artistFavoriteArray = artists.map((artistText, index) => {
         return artistText.name;
       })
-      // console.log(artistFavoriteArray)
       return artistFavoriteArray.some(artistName => artistName === releaseSongSplit.artist)
     })
   })
-  console.log(releaseInfoMap)
   //日付をオブジェクトのキーにする
+  let releaseInfoFavorite = {}
+  releaseDatesArray.forEach((releaseDate, index) => {
+    releaseInfoFavorite[releaseDate] = favoriteReleaseSongPerDates[index]
+    releaseDate = favoriteReleaseSongPerDates[index]
+  });
+  console.log(releaseInfoFavorite)
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -330,7 +334,7 @@ const Favorite = () => {
           </Toolbar>
         </Box>
       </AppBar>
-      {/* {releaseInfoKeys.map((item, index) => (
+      {releaseDatesArray.map((item, index) => (
         <div key={index}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -341,7 +345,7 @@ const Favorite = () => {
               </Typography>
             </Grid>
           </Grid>
-          {releaseInfoFavorits[item].map((item2, index) => (
+          {releaseInfoFavorite[item].map((item2, index) => (
             <Paper className={classes.paper} key={index}>
               <Grid container spacing={2}>
                 <Grid item >
@@ -369,7 +373,7 @@ const Favorite = () => {
             </Paper>
           ))}
         </div>
-      ))} */}
+      ))}
       <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
         新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
       </Button>
