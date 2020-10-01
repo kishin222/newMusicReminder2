@@ -14,6 +14,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import { Button } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,10 +58,15 @@ const Home = () => {
       <AppBar position="static" >
         <Box bgcolor="#FFF">
           <Toolbar>
+            <Link to="/favorite">
+              <FavoriteIcon />
+            </Link>
             <Typography variant="h6" className={classes.title} >
-              <Box textAlign="center" color="black">
-                Music Release Info
-              </Box>
+              <Link to="/">
+                <Box textAlign="center" color="black">
+                  Music Release Info
+                </Box>
+              </Link>
             </Typography>
             <Link to="/artist">
               <AccountBoxIcon />
@@ -126,8 +132,8 @@ const Artist = () => {
     }
     getUser()
   }, [])
-  const artisistsNoDoyo = artistList.filter(function (a) {
-    return a.name !== "童謡・唱歌";
+  const artisistsNoDoyo = artistList.filter(function (artistsArray) {
+    return artistsArray.name !== "童謡・唱歌";
   })
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '[]')
@@ -151,6 +157,9 @@ const Artist = () => {
       <AppBar position="static" >
         <Box bgcolor="#FFF">
           <Toolbar>
+            <Link to="/favorite">
+              <FavoriteIcon />
+            </Link>
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
@@ -220,7 +229,6 @@ const Artist = () => {
           //localStorageに新しいお気に入りアーティストをset
           const artistsString = localStorage.getItem(`newMusicReminder`)
           const artists = JSON.parse(artistsString)
-          console.log('artists', artists)
           const newArtists = [...artists,
           {
             name: item.name,
@@ -228,7 +236,6 @@ const Artist = () => {
           }
           ]
           const newArtistsJson = JSON.stringify(newArtists)
-          console.log(newArtistsJson)
           localStorage.setItem('newMusicReminder', newArtistsJson)
           // //localStorageからお気に入りアーティストをget
           // const lsArtistsString = localStorage.getItem("newMusicReminder")
@@ -244,7 +251,7 @@ const Artist = () => {
           // }, [])
         }}>
           <Paper className={classes.paper}>
-            <Grid container spacing={2}  alignItems="center" justify="center">
+            <Grid container spacing={2} alignItems="center" justify="center">
               <Grid item >
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
@@ -273,6 +280,113 @@ const Artist = () => {
   );
 }
 
+const Favorite = () => {
+  const [releaseInfo, setReleaseInfo] = useState({
+  })
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await axios.get('https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single');
+      // handle success
+      setReleaseInfo(response.data)
+    }
+    getUser()
+  }, [])
+
+  //objectKeys => Map => filter
+  const releaseDatesArray = Object.keys(releaseInfo)
+  const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
+    return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
+      //ローカルストレージ呼び出し
+      const artistsString = localStorage.getItem(`newMusicReminder`)
+      const artists = JSON.parse(artistsString)
+      const artistFavoriteArray = artists.map((artistText, index) => {
+        return artistText.name;
+      })
+      return artistFavoriteArray.some(artistName => artistName === releaseSongSplit.artist)
+    })
+  })
+  //日付をオブジェクトのキーにする
+  let releaseInfoFavorite = {}
+  releaseDatesArray.forEach((releaseDate, index) => {
+    releaseInfoFavorite[releaseDate] = favoriteReleaseSongPerDates[index]
+    releaseDate = favoriteReleaseSongPerDates[index]
+  });
+  // console.log(releaseInfoFavorite)
+  //新曲がない日を除外したリストを作る
+  // const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
+  //   // console.log(releaseInfoFavorite)
+  //   return releaseInfoFavorite[releaseDatesSplit].length !== 0
+  // })
+  // console.log(favoriteReleaseSongPerValidDates)
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" >
+        <Box bgcolor="#FFF">
+          <Toolbar>
+            <Link to="/favorite">
+              <FavoriteIcon />
+            </Link>
+            <Typography variant="h6" className={classes.title} >
+              <Link to="/">
+                <Box textAlign="center" color="black">
+                  Music Release Info
+                </Box>
+              </Link>
+            </Typography>
+            <Link to="/artist">
+              <AccountBoxIcon />
+            </Link>
+          </Toolbar>
+        </Box>
+      </AppBar>
+      {releaseDatesArray.map((item, index) => (
+        <div key={index}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2">
+                <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+                  {item} 発売
+                </Box>
+              </Typography>
+            </Grid>
+          </Grid>
+          {releaseInfoFavorite[item].map((item2, index) => (
+            <Paper className={classes.paper} key={index}>
+              <Grid container spacing={2}>
+                <Grid item >
+                  <ButtonBase className={classes.image}>
+                    <img src={item2.imgSrc} alt="img" height="100%" />
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={9} sm container alignItems="center" justify="center">
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <Typography variant="caption">
+                        <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                          {item2.title}
+                        </Box>
+                      </Typography>
+                      <Typography variant="caption" gutterBottom >
+                        <Box color="#4F4F4F">
+                          {item2.artist}
+                        </Box>
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Paper>
+          ))}
+        </div>
+      ))}
+      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
+        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
+      </Button>
+    </div>
+  );
+}
+
 const App = () => {
   return (
     <div>
@@ -280,6 +394,7 @@ const App = () => {
         <div>
           <Route path="/" exact component={Home} />
           <Route path="/artist" component={Artist} />
+          <Route path="/favorite" component={Favorite} />
         </div>
       </BrowserRouter>
     </div>
