@@ -293,19 +293,21 @@ const Favorite = () => {
   }, [])
 
   //objectKeys => Map => filter
-  const releaseInfoKeys = Object.keys(releaseInfo)
-  const releaseInfoMap = releaseInfoKeys.map((releaseText, index) => {
-    return releaseInfo[releaseText].filter(function (releaseInfoArray) {
+  const releaseDatesArray = Object.keys(releaseInfo)
+  const releaseInfoMap = releaseDatesArray.map((releaseDatesSplit, index) => {
+    return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
       const artists = JSON.parse(artistsString)
-      const artistMap = artists.map((artistText, index) => {
+      const artistFavoriteArray = artists.map((artistText, index) => {
         return artistText.name;
       })
-      return artistMap.some(artistName => artistName === releaseInfoArray.artist)
+      // console.log(artistFavoriteArray)
+      return artistFavoriteArray.some(artistName => artistName === releaseSongSplit.artist)
     })
   })
   console.log(releaseInfoMap)
+  //日付をオブジェクトのキーにする
   const classes = useStyles();
   return (
     <div className={classes.root}>
