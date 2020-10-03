@@ -283,7 +283,7 @@ const Favorite = () => {
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
   const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-    console.log(releaseDatesSplit)
+    // console.log(releaseDatesSplit)
     return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
@@ -301,15 +301,14 @@ const Favorite = () => {
     releaseDate = favoriteReleaseSongPerDates[index]
   });
   // console.log(releaseInfoFavorite)
-  // //新曲がない日を除外したリストを作る
-  // const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-  //   console.log(releaseDatesArray)
-  //   return releaseDatesArray[releaseDatesSplit].filter(function (releaseDatesSplit) {
-  //     return releaseInfoFavorite[releaseDatesSplit].length !== 0
-  //   })
-  //   // return releaseInfoFavorite[releaseDatesSplit].length !== 0
-  // })
-  // console.log(favoriteReleaseSongPerValidDates)
+  //新曲がない日を除外したリストを作る
+  //①日付ごとに操作できるように、releaseDatesArrayを1日ずつにばらけさせる
+  const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
+    //②論理値でお気に入りアーティストの新譜がある日だけ返ってくるようfilter
+    let releaseDaySplit = releaseInfoFavorite[releaseDatesSplit]
+    return releaseDaySplit.filter(releaseDaySplit => releaseDaySplit.length !== 0)
+  })
+  console.log(favoriteReleaseSongPerValidDates)
   const classes = useStyles();
   return (
     <div className={classes.root}>
