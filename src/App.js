@@ -135,6 +135,7 @@ const Artist = () => {
   const artisistsNoDoyo = artistList.filter(function (artistsArray) {
     return artistsArray.name !== "童謡・唱歌";
   })
+  //localstorageが空の場合に空の文字列を作成
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '[]')
   }
@@ -269,6 +270,10 @@ const Artist = () => {
 }
 
 const Favorite = () => {
+  //localstorageが空の場合に空の文字列を作成
+  if (!localStorage.getItem("newMusicReminder")) {
+    localStorage.setItem("newMusicReminder", '[]')
+  }
   const [releaseInfo, setReleaseInfo] = useState({
   })
   useEffect(() => {
@@ -300,15 +305,17 @@ const Favorite = () => {
     releaseInfoFavorite[releaseDate] = favoriteReleaseSongPerDates[index]
     releaseDate = favoriteReleaseSongPerDates[index]
   });
-  // console.log(releaseInfoFavorite)
-  //新曲がない日を除外したリストを作る
-  //①日付ごとに操作できるように、releaseDatesArrayを1日ずつにばらけさせる
-  const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-    //②論理値でお気に入りアーティストの新譜がある日だけ返ってくるようfilter
-    let releaseDaySplit = releaseInfoFavorite[releaseDatesSplit]
-    return releaseDaySplit.filter(releaseDaySplit => releaseDaySplit.length !== 0)
+  //お気に入りアーティストのCDがリリースされた日だけ抽出
+  const favoriteSongReleaseDates = releaseDatesArray.filter((releaseDatesSplit, index) => {
+    const releaseDaySplit = releaseInfoFavorite[releaseDatesSplit]
+    return releaseDaySplit.length !== 0
   })
-  console.log(favoriteReleaseSongPerValidDates)
+  //お気に入りアーティストのCDだけ含む新曲一覧作成
+  let releaseInfoFavoriteValidDate = {}
+  favoriteSongReleaseDates.forEach((releaseDate, index) => {
+    releaseInfoFavoriteValidDate[releaseDate] = []
+    releaseInfoFavoriteValidDate[releaseDate] = releaseInfoFavorite[releaseDate]
+  })
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -331,7 +338,7 @@ const Favorite = () => {
           </Toolbar>
         </Box>
       </AppBar>
-      {releaseDatesArray.map((item, index) => (
+      {favoriteSongReleaseDates.map((item, index) => (
         <div key={index}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -342,7 +349,7 @@ const Favorite = () => {
               </Typography>
             </Grid>
           </Grid>
-          {releaseInfoFavorite[item].map((item2, index) => (
+          {releaseInfoFavoriteValidDate[item].map((item2, index) => (
             <Paper className={classes.paper} key={index}>
               <Grid container spacing={2}>
                 <Grid item >
