@@ -114,9 +114,6 @@ const Home = () => {
           ))}
         </div>
       ))}
-      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
-        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
-      </Button>
     </div>
   );
 }
@@ -262,9 +259,6 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
-      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/artists'>
-        アーティスト一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
-      </Button>
     </div>
   );
 }
@@ -378,9 +372,14 @@ const Favorite = () => {
           ))}
         </div>
       ))}
-      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
-        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
-      </Button>
+      <Box>お気に入りしたアーティストがないか、お気に入りアーティストの新曲がありません</Box>
+      <Box>お気に入りアーティストは、</Box>
+      <Box>
+        <Link to="/artist">
+          <AccountBoxIcon />マイページ
+        </Link>
+        から登録してください
+      </Box>
     </div>
   );
 }
