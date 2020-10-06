@@ -307,7 +307,6 @@ const Favorite = () => {
   //お気に入りアーティストのCDだけ含む新曲一覧作成
   let releaseInfoFavoriteValidDate = {}
   favoriteSongReleaseDates.forEach((releaseDate, index) => {
-    releaseInfoFavoriteValidDate[releaseDate] = []
     releaseInfoFavoriteValidDate[releaseDate] = releaseInfoFavorite[releaseDate]
   })
   const classes = useStyles();
