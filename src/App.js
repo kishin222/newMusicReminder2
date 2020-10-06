@@ -11,7 +11,7 @@ import axios from "axios";
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
-import { Button } from "@material-ui/core";
+// import { Button } from "@material-ui/core";
 import ClearIcon from '@material-ui/icons/Clear';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -114,9 +114,6 @@ const Home = () => {
           ))}
         </div>
       ))}
-      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
-        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
-      </Button>
     </div>
   );
 }
@@ -135,6 +132,7 @@ const Artist = () => {
   const artisistsNoDoyo = artistList.filter(function (artistsArray) {
     return artistsArray.name !== "童謡・唱歌";
   })
+  //localstorageが空の場合に空の文字列を作成
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '[]')
   }
@@ -237,18 +235,6 @@ const Artist = () => {
           ]
           const newArtistsJson = JSON.stringify(newArtists)
           localStorage.setItem('newMusicReminder', newArtistsJson)
-          // //localStorageからお気に入りアーティストをget
-          // const lsArtistsString = localStorage.getItem("newMusicReminder")
-          // const artisistsFavorite = JSON.parse(lsArtistsString)
-          // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-          //   return a.name !== "";
-          // })
-          // const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
-          //   if (!a.some((e) => e.name === v.name)) {
-          //     a.push(v);
-          //   }
-          //   return a;
-          // }, [])
         }}>
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
@@ -273,14 +259,15 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
-      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/artists'>
-        アーティスト一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
-      </Button>
     </div>
   );
 }
 
 const Favorite = () => {
+  //localstorageが空の場合に空の文字列を作成
+  if (!localStorage.getItem("newMusicReminder")) {
+    localStorage.setItem("newMusicReminder", '[]')
+  }
   const [releaseInfo, setReleaseInfo] = useState({
   })
   useEffect(() => {
@@ -295,6 +282,7 @@ const Favorite = () => {
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
   const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
+    // console.log(releaseDatesSplit)
     return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
@@ -311,13 +299,16 @@ const Favorite = () => {
     releaseInfoFavorite[releaseDate] = favoriteReleaseSongPerDates[index]
     releaseDate = favoriteReleaseSongPerDates[index]
   });
-  // console.log(releaseInfoFavorite)
-  //新曲がない日を除外したリストを作る
-  // const favoriteReleaseSongPerValidDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-  //   // console.log(releaseInfoFavorite)
-  //   return releaseInfoFavorite[releaseDatesSplit].length !== 0
-  // })
-  // console.log(favoriteReleaseSongPerValidDates)
+  //お気に入りアーティストのCDがリリースされた日だけ抽出
+  const favoriteSongReleaseDates = releaseDatesArray.filter((releaseDatesSplit, index) => {
+    const releaseDaySplit = releaseInfoFavorite[releaseDatesSplit]
+    return releaseDaySplit.length !== 0
+  })
+  //お気に入りアーティストのCDだけ含む新曲一覧作成
+  let releaseInfoFavoriteValidDate = {}
+  favoriteSongReleaseDates.forEach((releaseDate, index) => {
+    releaseInfoFavoriteValidDate[releaseDate] = releaseInfoFavorite[releaseDate]
+  })
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -340,7 +331,7 @@ const Favorite = () => {
           </Toolbar>
         </Box>
       </AppBar>
-      {releaseDatesArray.map((item, index) => (
+      {favoriteSongReleaseDates.map((item, index) => (
         <div key={index}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -351,7 +342,7 @@ const Favorite = () => {
               </Typography>
             </Grid>
           </Grid>
-          {releaseInfoFavorite[item].map((item2, index) => (
+          {releaseInfoFavoriteValidDate[item].map((item2, index) => (
             <Paper className={classes.paper} key={index}>
               <Grid container spacing={2}>
                 <Grid item >
@@ -380,9 +371,14 @@ const Favorite = () => {
           ))}
         </div>
       ))}
-      <Button href='https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/single'>
-        新曲一覧が表示されない場合、一度こちらをクリックした後、このページを再読み込みしてください
-      </Button>
+      <Box>お気に入りしたアーティストがないか、お気に入りアーティストの新曲がありません</Box>
+      <Box>お気に入りアーティストは、</Box>
+      <Box>
+        <Link to="/artist">
+          <AccountBoxIcon />マイページ
+        </Link>
+        から登録してください
+      </Box>
     </div>
   );
 }
