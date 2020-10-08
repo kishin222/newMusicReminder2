@@ -157,7 +157,6 @@ const Artist = () => {
     })
     return favoriteArtistsName.every(name => name !== artistsArray.name)
   })
-  console.log(artistsNoFavorite)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -303,7 +302,6 @@ const Favorite = () => {
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
   const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-    // console.log(releaseDatesSplit)
     return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
