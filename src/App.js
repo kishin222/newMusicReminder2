@@ -150,6 +150,14 @@ const Artist = () => {
   }, [])
   const newArtistsJson = JSON.stringify(artisistsUnique)
   localStorage.setItem('newMusicReminder', newArtistsJson)
+  //お気に入りアーティストはアーティスト一覧から削除
+  const artistsNoFavorite = artisistsNoDoyo.filter(function (artistsArray) {
+    const favoriteArtistsName = artisistsUnique.map((artistText, index) => {
+      return artistText.name;
+    })
+    return favoriteArtistsName.every(name => name !== artistsArray.name)
+  })
+  console.log(artistsNoFavorite)
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -217,12 +225,12 @@ const Artist = () => {
         <Grid item xs={12}>
           <Typography variant="subtitle2">
             <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
-              アーティスト一覧
+              おすすめアーティスト
                 </Box>
           </Typography>
         </Grid>
       </Grid>
-      {artisistsNoDoyo.map((item, index) => (
+      {artistsNoFavorite.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           //localStorageに新しいお気に入りアーティストをset
           const artistsString = localStorage.getItem(`newMusicReminder`)
