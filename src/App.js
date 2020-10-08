@@ -237,17 +237,17 @@ const Artist = () => {
           localStorage.setItem('newMusicReminder', newArtistsJson)
           //localStorageからお気に入りアーティストをget
           //ここやり直し
-          const lsArtistsString = localStorage.getItem("newMusicReminder")
-          const artisistsFavorite = JSON.parse(lsArtistsString)
-          const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-            return a.name !== "";
-          })
-          const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
-            if (!a.some((e) => e.name === v.name)) {
-              a.push(v);
-            }
-            return a;
-          }, [])
+          // const lsArtistsString = localStorage.getItem("newMusicReminder")
+          // const artisistsFavorite = JSON.parse(lsArtistsString)
+          // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+          //   return a.name !== "";
+          // })
+          // artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+          //   if (!a.some((e) => e.name === v.name)) {
+          //     a.push(v);
+          //   }
+          //   return a;
+          // }, [])
         }}>
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
@@ -323,6 +323,29 @@ const Favorite = () => {
     releaseInfoFavoriteValidDate[releaseDate] = releaseInfoFavorite[releaseDate]
   })
   const classes = useStyles();
+  let noNewFavoriteArtistReleaseMessage
+  const validDate = Object.keys(releaseInfoFavoriteValidDate)
+  if(validDate.length === 0){
+    noNewFavoriteArtistReleaseMessage = <Box>お気に入りアーティストの新曲がありません</Box>
+    // noArtistMessage = null
+  }
+  let noArtistMessage
+  //ローカルストレージ呼び出し
+  const artistsString = localStorage.getItem(`newMusicReminder`)
+  const artists = JSON.parse(artistsString)
+  if (!artists.length) {
+    noArtistMessage = <div>
+      <Box>お気に入りしたアーティストがありません</Box>
+      <Box>お気に入りアーティストは、</Box>
+      <Box>
+        <Link to="/artist">
+          <AccountBoxIcon />マイページ
+        </Link>
+        から登録してください
+      </Box>
+    </div>
+    noNewFavoriteArtistReleaseMessage = null
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -384,14 +407,8 @@ const Favorite = () => {
           ))}
         </div>
       ))}
-      <Box>お気に入りしたアーティストがないか、お気に入りアーティストの新曲がありません</Box>
-      <Box>お気に入りアーティストは、</Box>
-      <Box>
-        <Link to="/artist">
-          <AccountBoxIcon />マイページ
-        </Link>
-        から登録してください
-      </Box>
+      {noArtistMessage}
+      {noNewFavoriteArtistReleaseMessage}
     </div>
   );
 }
