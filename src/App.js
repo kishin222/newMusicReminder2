@@ -150,6 +150,13 @@ const Artist = () => {
   }, [])
   const newArtistsJson = JSON.stringify(artisistsUnique)
   localStorage.setItem('newMusicReminder', newArtistsJson)
+  //お気に入りアーティストはアーティスト一覧から削除
+  const artistsNoFavorite = artisistsNoDoyo.filter(function (artistsArray) {
+    const favoriteArtistsName = artisistsUnique.map((artistText, index) => {
+      return artistText.name;
+    })
+    return favoriteArtistsName.every(name => name !== artistsArray.name)
+  })
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -217,12 +224,12 @@ const Artist = () => {
         <Grid item xs={12}>
           <Typography variant="subtitle2">
             <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
-              アーティスト一覧
+              おすすめアーティスト
                 </Box>
           </Typography>
         </Grid>
       </Grid>
-      {artisistsNoDoyo.map((item, index) => (
+      {artistsNoFavorite.map((item, index) => (
         <CardActionArea key={index} onClick={() => {
           //localStorageに新しいお気に入りアーティストをset
           const artistsString = localStorage.getItem(`newMusicReminder`)
@@ -235,6 +242,19 @@ const Artist = () => {
           ]
           const newArtistsJson = JSON.stringify(newArtists)
           localStorage.setItem('newMusicReminder', newArtistsJson)
+          //localStorageからお気に入りアーティストをget
+          //ここやり直し
+          // const lsArtistsString = localStorage.getItem("newMusicReminder")
+          // const artisistsFavorite = JSON.parse(lsArtistsString)
+          // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+          //   return a.name !== "";
+          // })
+          // artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+          //   if (!a.some((e) => e.name === v.name)) {
+          //     a.push(v);
+          //   }
+          //   return a;
+          // }, [])
         }}>
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
@@ -282,7 +302,6 @@ const Favorite = () => {
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
   const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
-    // console.log(releaseDatesSplit)
     return releaseInfo[releaseDatesSplit].filter(function (releaseSongSplit) {
       //ローカルストレージ呼び出し
       const artistsString = localStorage.getItem(`newMusicReminder`)
@@ -310,6 +329,29 @@ const Favorite = () => {
     releaseInfoFavoriteValidDate[releaseDate] = releaseInfoFavorite[releaseDate]
   })
   const classes = useStyles();
+  let noNewFavoriteArtistReleaseMessage
+  const validDate = Object.keys(releaseInfoFavoriteValidDate)
+  if(validDate.length === 0){
+    noNewFavoriteArtistReleaseMessage = <Box>お気に入りアーティストの新曲がありません</Box>
+    // noArtistMessage = null
+  }
+  let noArtistMessage
+  //ローカルストレージ呼び出し
+  const artistsString = localStorage.getItem(`newMusicReminder`)
+  const artists = JSON.parse(artistsString)
+  if (!artists.length) {
+    noArtistMessage = <div>
+      <Box>お気に入りしたアーティストがありません</Box>
+      <Box>お気に入りアーティストは、</Box>
+      <Box>
+        <Link to="/artist">
+          <AccountBoxIcon />マイページ
+        </Link>
+        から登録してください
+      </Box>
+    </div>
+    noNewFavoriteArtistReleaseMessage = null
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -371,14 +413,8 @@ const Favorite = () => {
           ))}
         </div>
       ))}
-      <Box>お気に入りしたアーティストがないか、お気に入りアーティストの新曲がありません</Box>
-      <Box>お気に入りアーティストは、</Box>
-      <Box>
-        <Link to="/artist">
-          <AccountBoxIcon />マイページ
-        </Link>
-        から登録してください
-      </Box>
+      {noArtistMessage}
+      {noNewFavoriteArtistReleaseMessage}
     </div>
   );
 }
