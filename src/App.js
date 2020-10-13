@@ -64,7 +64,7 @@ const Home = () => {
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
-                  Music Release Info
+                  LISTENA
                 </Box>
               </Link>
             </Typography>
@@ -168,7 +168,7 @@ const Artist = () => {
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
-                  Music Release Info
+                  LISTENA
                 </Box>
               </Link>
             </Typography>
@@ -363,7 +363,7 @@ const Favorite = () => {
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
-                  Music Release Info
+                  LISTENA
                 </Box>
               </Link>
             </Typography>
