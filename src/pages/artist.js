@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-import {  Link } from 'react-router-dom'
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import CardActionArea from '@material-ui/core/CardActionArea';
 import ClearIcon from '@material-ui/icons/Clear';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import useStyles from "../useStyles";
+import useStyles from "../styles/useStyles";
+import Header from "../header/header";
 
 const Artist = () => {
   const classes = useStyles();
@@ -56,25 +52,7 @@ const Artist = () => {
   })
   return (
     <div className={classes.root}>
-      <AppBar position="static" >
-        <Box bgcolor="#FFF">
-          <Toolbar>
-            <Link to="/favorite">
-              <FavoriteIcon />
-            </Link>
-            <Typography variant="h6" className={classes.title} >
-              <Link to="/">
-                <Box textAlign="center" color="black">
-                  LISTENA
-                </Box>
-              </Link>
-            </Typography>
-            <Link to="/artist">
-              <AccountBoxIcon />
-            </Link>
-          </Toolbar>
-        </Box>
-      </AppBar>
+      <Header />
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography variant="subtitle2">

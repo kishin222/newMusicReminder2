@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -9,8 +7,8 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { Link } from 'react-router-dom'
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import useStyles from "../useStyles";
+import useStyles from "../styles/useStyles";
+import Header from "../header/header";
 
 const Favorite = () => {
   //localstorageが空の場合に空の文字列を作成
@@ -83,25 +81,7 @@ const Favorite = () => {
   }
   return (
     <div className={classes.root}>
-      <AppBar position="static" >
-        <Box bgcolor="#FFF">
-          <Toolbar>
-            <Link to="/favorite">
-              <FavoriteIcon />
-            </Link>
-            <Typography variant="h6" className={classes.title} >
-              <Link to="/">
-                <Box textAlign="center" color="black">
-                  LISTENA
-                </Box>
-              </Link>
-            </Typography>
-            <Link to="/artist">
-              <AccountBoxIcon />
-            </Link>
-          </Toolbar>
-        </Box>
-      </AppBar>
+      <Header />
       {favoriteSongReleaseDates.map((item, index) => (
         <div key={index}>
           <Grid container spacing={3}>
