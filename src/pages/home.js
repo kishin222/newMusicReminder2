@@ -38,9 +38,14 @@ const Home = () => {
           </Grid>
           {releaseInfo[item].map((item2, index) => (
             <Paper className={classes.paper} key={index}>
-              <Grid container spacing={2}>
+              <Grid container
+                spacing={2}
+                onClick={() => {
+                  const searchQuery = "https://www.google.com/search?q="+item2.title+" "+item2.artist
+                  window.open(searchQuery, '_blank')
+                }}>
                 <Grid item >
-                  <ButtonBase className={classes.image}>
+                  <ButtonBase className={classes.image} >
                     <img src={item2.imgSrc} alt="img" height="100%" />
                   </ButtonBase>
                 </Grid>
