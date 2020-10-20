@@ -21,7 +21,7 @@ import useStyles from "../styles/useStyles";
             <Typography variant="h6" className={classes.title} >
               <Link to="/">
                 <Box textAlign="center" color="black">
-                  LISTENA
+                  LISNA
                 </Box>
               </Link>
             </Typography>
