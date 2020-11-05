@@ -17,13 +17,14 @@ const Card = (props) => {
         </Box>
       </Typography>
       {releaseInfo[releaseDate].map((item, index) => (
-        <Paper>
+        <Paper key="index" key={index}>
           <Grid container>
             <Grid item>
-              <img src={item.item} alt="img" height="100%" />
+              <img src={item.imgSrc} alt="img" width="65" height="65" />
             </Grid>
             <Grid item xs={9}>
-              <div key={index}>{item.title}</div>
+              <Typography variant="caption" component="p">{item.title}</Typography>
+              <Typography variant="caption" component="p">{item.artist}</Typography>
             </Grid>
           </Grid>
         </Paper>
