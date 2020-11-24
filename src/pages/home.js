@@ -35,13 +35,6 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
-}
-
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     backgroundColor: theme.palette.background.paper,
@@ -91,10 +84,6 @@ const Home = () => {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
-
   return (
     <div className={classes.root}>
       <Header />
@@ -108,34 +97,28 @@ const Home = () => {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab label="シングル" {...a11yProps(0)} />
-            <Tab label="アルバム" {...a11yProps(1)} />
+            <Tab label="シングル" />
+            <Tab label="アルバム" />
           </Tabs>
         </AppBar>
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        >
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            {releaseInfoKeys.map((item, index) => (
-              <Card
-                key={index}
-                releaseDate={item}
-                releaseInfo={releaseInfo}
-              ></Card>
-            ))}
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            {releaseInfoKeysAlbum.map((item, index) => (
-              <Card
-                key={index}
-                releaseDate={item}
-                releaseInfo={releaseInfoAlbum}
-              ></Card>
-            ))}
-          </TabPanel>
-        </SwipeableViews>
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          {releaseInfoKeys.map((item, index) => (
+            <Card
+              key={index}
+              releaseDate={item}
+              releaseInfo={releaseInfo}
+            ></Card>
+          ))}
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          {releaseInfoKeysAlbum.map((item, index) => (
+            <Card
+              key={index}
+              releaseDate={item}
+              releaseInfo={releaseInfoAlbum}
+            ></Card>
+          ))}
+        </TabPanel>
       </div>
     </div>
   );
