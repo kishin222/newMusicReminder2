@@ -19,9 +19,9 @@ import useStyles from "../styles/useStyles";
               <FavoriteIcon />
             </Link>
             <Typography variant="h6" className={classes.title} >
-              <Link to="/">
+              <Link to="/" style={{ textDecoration: 'none' }}>
                 <Box textAlign="center" color="black">
-                  LISTENA
+                  <img src="/lisna_logo_v3.png" alt="img" width="20" ></img> LISNA
                 </Box>
               </Link>
             </Typography>
