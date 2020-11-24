@@ -20,9 +20,15 @@ const Card = (props) => {
         <Grid item>
           <img src={item.imgSrc} alt="img" width="65" height="65" />
         </Grid>
-        <Grid item xs={9}>
-          <Typography variant="caption" component="p">{item.title}</Typography>
-          <Typography variant="caption" component="p">{item.artist}</Typography>
+        <Grid item xs={9} container alignItems="end" justify="center" direction="column">
+          <Typography variant="caption" component="p" >
+            <Box fontWeight="fontWeightBold" >
+              {item.title}
+            </Box>
+          </Typography>
+          <Typography variant="caption" component="p">
+            {item.artist}
+          </Typography>
         </Grid>
       </Grid>
     </Paper>
