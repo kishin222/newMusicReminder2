@@ -5,7 +5,7 @@ import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
+// import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
