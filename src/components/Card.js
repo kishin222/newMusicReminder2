@@ -3,20 +3,20 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-// import useStyles from "./styles/useStyles";
-// import ButtonBase from "@material-ui/core/ButtonBase";
 
 const Card = (props) => {
-  // const classes = useStyles();
   const { releaseDate, releaseInfo } = props;
   const infoPapers = releaseInfo[releaseDate].map((item, index) => (
     <Paper key={index}>
-      <Grid container
-                spacing={2}
-                onClick={() => {
-                  const searchQuery = "https://www.google.com/search?q="+item.title+" "+item.artist
-                  window.open(searchQuery, '_blank')
-                }}>
+      <Grid
+        container
+        spacing={2}
+        onClick={() => {
+          const searchQuery =
+            "https://www.google.com/search?q=" + item.title + " " + item.artist;
+          window.open(searchQuery, "_blank");
+        }}
+      >
         <Grid item>
           <img src={item.imgSrc} alt="img" width="65" height="65" />
         </Grid>
@@ -32,7 +32,7 @@ const Card = (props) => {
         </Grid>
       </Grid>
     </Paper>
-  ))
+  ));
 
   return (
     <>
