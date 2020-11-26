@@ -159,7 +159,6 @@ const Favorite = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <div className={classes.root}>
       <Header />
