@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import useStyles from "../styles/useStyles";
 import Header from "../header/header";
-
 import PropTypes from "prop-types";
-// import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
 import Card from "../components/Card";
+
+const useStyles = makeStyles((theme) => ({
+  tabContainer: {
+    padding: 24,
+  },
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,7 +75,6 @@ const Home = () => {
   return (
     <>
       <Header />
-
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -86,20 +88,26 @@ const Home = () => {
           <Tab label="アルバム" />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0} dir={theme.direction}>
-        {releaseInfoKeys.map((item, index) => (
-          <Card key={index} releaseDate={item} releaseInfo={releaseInfo}></Card>
-        ))}
-      </TabPanel>
-      <TabPanel value={value} index={1} dir={theme.direction}>
-        {releaseInfoKeysAlbum.map((item, index) => (
-          <Card
-            key={index}
-            releaseDate={item}
-            releaseInfo={releaseInfoAlbum}
-          ></Card>
-        ))}
-      </TabPanel>
+      <div className={classes.tabContainer}>
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          {releaseInfoKeys.map((item, index) => (
+            <Card
+              key={index}
+              releaseDate={item}
+              releaseInfo={releaseInfo}
+            ></Card>
+          ))}
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          {releaseInfoKeysAlbum.map((item, index) => (
+            <Card
+              key={index}
+              releaseDate={item}
+              releaseInfo={releaseInfoAlbum}
+            ></Card>
+          ))}
+        </TabPanel>
+      </div>
     </>
   );
 };
