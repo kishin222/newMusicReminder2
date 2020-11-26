@@ -5,76 +5,86 @@ import Paper from "@material-ui/core/Paper";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
-import CardActionArea from '@material-ui/core/CardActionArea';
-import ClearIcon from '@material-ui/icons/Clear';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import CardActionArea from "@material-ui/core/CardActionArea";
+import ClearIcon from "@material-ui/icons/Clear";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 
 const Artist = () => {
   const classes = useStyles();
-  const [artistList, setArtistList] = useState([])
+  const [artistList, setArtistList] = useState([]);
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get('https://new-music-notification-01.an.r.appspot.com/api/v1/artists');
+      const response = await axios.get(
+        "https://new-music-notification-01.an.r.appspot.com/api/v1/artists"
+      );
       // handle success
-      setArtistList(response.data)
-    }
-    getUser()
-  }, [])
+      setArtistList(response.data);
+    };
+    getUser();
+  }, []);
   const artisistsNoDoyo = artistList.filter(function (artistsArray) {
     return artistsArray.name !== "童謡・唱歌";
-  })
+  });
   //localstorageが空の場合に空の文字列を作成
   if (!localStorage.getItem("newMusicReminder")) {
-    localStorage.setItem("newMusicReminder", '[]')
+    localStorage.setItem("newMusicReminder", "[]");
   }
   //localStorageからお気に入りアーティストをget
-  const lsArtistsString = localStorage.getItem("newMusicReminder")
-  const artisistsFavorite = JSON.parse(lsArtistsString)
+  const lsArtistsString = localStorage.getItem("newMusicReminder");
+  const artisistsFavorite = JSON.parse(lsArtistsString);
   const artisistsNoBlank = artisistsFavorite.filter(function (a) {
     return a.name !== "";
-  })
+  });
   const artisistsUnique = artisistsNoBlank.reduce((a, v) => {
     if (!a.some((e) => e.name === v.name)) {
       a.push(v);
     }
     return a;
-  }, [])
-  const newArtistsJson = JSON.stringify(artisistsUnique)
-  localStorage.setItem('newMusicReminder', newArtistsJson)
+  }, []);
+  const newArtistsJson = JSON.stringify(artisistsUnique);
+  localStorage.setItem("newMusicReminder", newArtistsJson);
   //お気に入りアーティストはアーティスト一覧から削除
   const artistsNoFavorite = artisistsNoDoyo.filter(function (artistsArray) {
     const favoriteArtistsName = artisistsUnique.map((artistText, index) => {
       return artistText.name;
-    })
-    return favoriteArtistsName.every(name => name !== artistsArray.name)
-  })
+    });
+    return favoriteArtistsName.every((name) => name !== artistsArray.name);
+  });
   return (
-    <div className={classes.root}>
+    <>
       <Header />
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography variant="subtitle2">
-            <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+            <Box
+              bgcolor="#f3f3f3"
+              p={2}
+              fontWeight="fontWeightBold"
+              padding={1}
+            >
               お気に入りアーティスト
-                </Box>
+            </Box>
           </Typography>
         </Grid>
       </Grid>
       {artisistsUnique.map((item, index) => (
-        <CardActionArea key={index} onClick={() => {
-          const artistsString = localStorage.getItem(`newMusicReminder`)
-          const artists = JSON.parse(artistsString)
-          const artisistsDeleted = artists.filter(function (a) {
-            return a.name !== item.name;
-          })
-          const newArtistsJson = JSON.stringify(artisistsDeleted)
-          localStorage.setItem('newMusicReminder', newArtistsJson)
-        }}>
+        <CardActionArea
+          key={index}
+          onClick={() => {
+            const artistsString = localStorage.getItem(`newMusicReminder`);
+            const artists = JSON.parse(artistsString);
+            const artisistsDeleted = artists.filter(function (a) {
+              return a.name !== item.name;
+            });
+            const newArtistsJson = JSON.stringify(artisistsDeleted);
+            localStorage.setItem("newMusicReminder", newArtistsJson);
+          }}
+        >
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
-              <Grid item >
+              <Grid item>
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
                 </ButtonBase>
@@ -83,7 +93,11 @@ const Artist = () => {
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography variant="caption">
-                      <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                      <Box
+                        fontWeight="fontWeightBold"
+                        lineHeight={1.2}
+                        paddingBottom={0.5}
+                      >
                         {item.name}
                       </Box>
                     </Typography>
@@ -98,42 +112,51 @@ const Artist = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography variant="subtitle2">
-            <Box bgcolor="#f3f3f3" p={2} fontWeight="fontWeightBold" padding={1} >
+            <Box
+              bgcolor="#f3f3f3"
+              p={2}
+              fontWeight="fontWeightBold"
+              padding={1}
+            >
               おすすめアーティスト
-                </Box>
+            </Box>
           </Typography>
         </Grid>
       </Grid>
       {artistsNoFavorite.map((item, index) => (
-        <CardActionArea key={index} onClick={() => {
-          //localStorageに新しいお気に入りアーティストをset
-          const artistsString = localStorage.getItem(`newMusicReminder`)
-          const artists = JSON.parse(artistsString)
-          const newArtists = [...artists,
-          {
-            name: item.name,
-            imgSrc: item.imgSrc
-          }
-          ]
-          const newArtistsJson = JSON.stringify(newArtists)
-          localStorage.setItem('newMusicReminder', newArtistsJson)
-          //localStorageからお気に入りアーティストをget
-          //ここやり直し
-          // const lsArtistsString = localStorage.getItem("newMusicReminder")
-          // const artisistsFavorite = JSON.parse(lsArtistsString)
-          // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-          //   return a.name !== "";
-          // })
-          // artisistsUnique = artisistsNoBlank.reduce((a, v) => {
-          //   if (!a.some((e) => e.name === v.name)) {
-          //     a.push(v);
-          //   }
-          //   return a;
-          // }, [])
-        }}>
+        <CardActionArea
+          key={index}
+          onClick={() => {
+            //localStorageに新しいお気に入りアーティストをset
+            const artistsString = localStorage.getItem(`newMusicReminder`);
+            const artists = JSON.parse(artistsString);
+            const newArtists = [
+              ...artists,
+              {
+                name: item.name,
+                imgSrc: item.imgSrc,
+              },
+            ];
+            const newArtistsJson = JSON.stringify(newArtists);
+            localStorage.setItem("newMusicReminder", newArtistsJson);
+            //localStorageからお気に入りアーティストをget
+            //ここやり直し
+            // const lsArtistsString = localStorage.getItem("newMusicReminder")
+            // const artisistsFavorite = JSON.parse(lsArtistsString)
+            // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
+            //   return a.name !== "";
+            // })
+            // artisistsUnique = artisistsNoBlank.reduce((a, v) => {
+            //   if (!a.some((e) => e.name === v.name)) {
+            //     a.push(v);
+            //   }
+            //   return a;
+            // }, [])
+          }}
+        >
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
-              <Grid item >
+              <Grid item>
                 <ButtonBase className={classes.image}>
                   <img src={item.imgSrc} alt="img" height="100%" />
                 </ButtonBase>
@@ -142,7 +165,11 @@ const Artist = () => {
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography variant="caption">
-                      <Box fontWeight="fontWeightBold" lineHeight={1.2} paddingBottom={0.5}>
+                      <Box
+                        fontWeight="fontWeightBold"
+                        lineHeight={1.2}
+                        paddingBottom={0.5}
+                      >
                         {item.name}
                       </Box>
                     </Typography>
@@ -154,8 +181,8 @@ const Artist = () => {
           </Paper>
         </CardActionArea>
       ))}
-    </div>
+    </>
   );
-}
+};
 
 export default Artist;
