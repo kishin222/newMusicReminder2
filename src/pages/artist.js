@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -10,6 +9,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import useStyles from "../styles/useStyles";
 import Header from "../header/header";
+import RecommendArtistCard from "../components/RecommendArtistCard";
 
 const Artist = () => {
   const classes = useStyles();
@@ -157,9 +157,7 @@ const Artist = () => {
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
               <Grid item>
-                <ButtonBase className={classes.image}>
-                  <img src={item.imgSrc} alt="img" height="100%" />
-                </ButtonBase>
+                <img src={item.imgSrc} alt="img" height="100%" />
               </Grid>
               <Grid item xs={9} sm container>
                 <Grid item xs container direction="column" spacing={2}>

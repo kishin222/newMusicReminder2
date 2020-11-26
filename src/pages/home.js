@@ -36,7 +36,6 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
-
 const Home = () => {
   //シングル
   const [releaseInfo, setReleaseInfo] = useState({});
