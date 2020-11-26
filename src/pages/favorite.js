@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import ButtonBase from "@material-ui/core/ButtonBase";
+// import Typography from "@material-ui/core/Typography";
+// import Grid from "@material-ui/core/Grid";
+// import Paper from "@material-ui/core/Paper";
+// import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { Link } from 'react-router-dom'
@@ -42,6 +42,7 @@ const Favorite = () => {
   if (!localStorage.getItem("newMusicReminder")) {
     localStorage.setItem("newMusicReminder", '[]')
   }
+  //シングル
   const [releaseInfo, setReleaseInfo] = useState({
   })
   useEffect(() => {
@@ -52,7 +53,6 @@ const Favorite = () => {
     }
     getUser()
   }, [])
-
   //objectKeys => Map => filter
   const releaseDatesArray = Object.keys(releaseInfo)
   const favoriteReleaseSongPerDates = releaseDatesArray.map((releaseDatesSplit, index) => {
@@ -86,7 +86,7 @@ const Favorite = () => {
   let noNewFavoriteArtistReleaseMessage
   const validDate = Object.keys(releaseInfoFavoriteValidDate)
   if(validDate.length === 0){
-    noNewFavoriteArtistReleaseMessage = <Box>お気に入りアーティストの新曲がありません</Box>
+    noNewFavoriteArtistReleaseMessage = <Box>お気に入りアーティストのニューシングルがありません</Box>
     // noArtistMessage = null
   }
   let noArtistMessage
@@ -105,6 +105,53 @@ const Favorite = () => {
       </Box>
     </div>
     noNewFavoriteArtistReleaseMessage = null
+  }
+  //アルバム
+  const [releaseInfoAlbum, setReleaseInfoAlbum] = useState({});
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await axios.get(
+        "https://new-music-notification-01.an.r.appspot.com/api/v1/releaseInfo/album"
+      );
+      // handle success
+      setReleaseInfoAlbum(response.data);
+    };
+    getUser();
+  }, []);
+  const releaseDatesArrayAlbum = Object.keys(releaseInfoAlbum);
+  //新しく書く部分
+  const favoriteReleaseSongPerDatesAlbum = releaseDatesArrayAlbum.map((releaseDatesSplitAlbum, index) => {
+    return releaseInfoAlbum[releaseDatesSplitAlbum].filter(function (releaseSongSplitAlbum) {
+      //ローカルストレージ呼び出し
+      const artistsString = localStorage.getItem(`newMusicReminder`)
+      const artists = JSON.parse(artistsString)
+      const artistFavoriteArrayAlbum = artists.map((artistText, index) => {
+        return artistText.name;
+      })
+      return artistFavoriteArrayAlbum.some(artistName => artistName === releaseSongSplitAlbum.artist)
+    })
+  })
+  //日付をオブジェクトのキーにする
+  let releaseInfoFavoriteAlbum = {}
+  releaseDatesArrayAlbum.forEach((releaseDateAlbum, index) => {
+    releaseInfoFavoriteAlbum[releaseDateAlbum] = favoriteReleaseSongPerDatesAlbum[index]
+    releaseDateAlbum = favoriteReleaseSongPerDatesAlbum[index]
+  });
+  //お気に入りアーティストのCDがリリースされた日だけ抽出
+  const favoriteSongReleaseDatesAlbum = releaseDatesArrayAlbum.filter((releaseDatesSplitAlbum, index) => {
+    const releaseDaySplitAlbum = releaseInfoFavoriteAlbum[releaseDatesSplitAlbum]
+    return releaseDaySplitAlbum.length !== 0
+  })
+  //お気に入りアーティストのCDだけ含む新曲一覧作成
+  let releaseInfoFavoriteValidDateAlbum = {}
+  favoriteSongReleaseDatesAlbum.forEach((releaseDateAlbum, index) => {
+    releaseInfoFavoriteValidDateAlbum[releaseDateAlbum] = releaseInfoFavoriteAlbum[releaseDateAlbum]
+  })
+  let noNewFavoriteArtistReleaseMessageAlbum
+  const validDateAlbum = Object.keys(releaseInfoFavoriteValidDateAlbum)
+  if(validDateAlbum.length === 0){
+    noNewFavoriteArtistReleaseMessageAlbum = <Box>お気に入りアーティストのニューアルバムがありません</Box>
+    // noArtistMessage = null
   }
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -140,15 +187,18 @@ const Favorite = () => {
           ))}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {favoriteSongReleaseDates.map((item, index) => (
+          {favoriteSongReleaseDatesAlbum.map((item, index) => (
             <Card
               key={index}
               releaseDate={item}
-              releaseInfo={releaseInfoFavoriteValidDate}
+              releaseInfo={releaseInfoFavoriteValidDateAlbum}
             ></Card>
           ))}
         </TabPanel>
       </div>
+      {noArtistMessage}
+      {noNewFavoriteArtistReleaseMessage}
+      {noNewFavoriteArtistReleaseMessageAlbum}
     </div>
   );
   // return (
