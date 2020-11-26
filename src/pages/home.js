@@ -34,21 +34,6 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     backgroundColor: theme.palette.background.paper,
-//     width: 500,
-//   },
-// }));
-
-// export default function FullWidthTabs() {
-
-//   return (
-
-//   );
-// }
-
 const Home = () => {
   //シングル
   const [releaseInfo, setReleaseInfo] = useState({});
