@@ -11,20 +11,28 @@ const Card = (props) => {
   const { releaseDate, releaseInfo } = props;
   const infoPapers = releaseInfo[releaseDate].map((item, index) => (
     <Paper key={index}>
-      <Grid container
-                spacing={2}
-                onClick={() => {
-                  const searchQuery = "https://www.google.com/search?q="+item.title+" "+item.artist
-                  window.open(searchQuery, '_blank')
-                }}>
+      <Grid
+        container
+        spacing={2}
+        onClick={() => {
+          const searchQuery =
+            "https://www.google.com/search?q=" + item.title + " " + item.artist;
+          window.open(searchQuery, "_blank");
+        }}
+      >
         <Grid item>
           <img src={item.imgSrc} alt="img" width="65" height="65" />
         </Grid>
-        <Grid item xs={9} container alignItems="end" justify="center" direction="column">
-          <Typography variant="caption" component="p" >
-            <Box fontWeight="fontWeightBold" >
-              {item.title}
-            </Box>
+        <Grid
+          item
+          xs={9}
+          container
+          alignItems="end"
+          justify="center"
+          direction="column"
+        >
+          <Typography variant="caption" component="p">
+            <Box fontWeight="fontWeightBold">{item.title}</Box>
           </Typography>
           <Typography variant="caption" component="p">
             {item.artist}
@@ -32,7 +40,7 @@ const Card = (props) => {
         </Grid>
       </Grid>
     </Paper>
-  ))
+  ));
 
   return (
     <>
