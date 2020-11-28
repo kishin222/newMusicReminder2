@@ -6,7 +6,6 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import ClearIcon from "@material-ui/icons/Clear";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 import RecommendArtistCard from "../components/RecommendArtistCard";
