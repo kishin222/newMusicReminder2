@@ -35,7 +35,7 @@ const RecommendArtistCard = (props) => {
           <Grid item>
             <img src={imgSrc} alt="img" height="75" width="75" />
           </Grid>
-          <Grid item xs={9} sm container>
+          <Grid item xs={8} sm container>
             <Grid item xs container direction="column" spacing={2}>
               <Grid item xs>
                 <Typography variant="caption">

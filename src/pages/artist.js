@@ -52,7 +52,7 @@ const Artist = () => {
     return favoriteArtistsName.every((name) => name !== artistsArray.name);
   });
   return (
-    <div className={classes.root}>
+    <>
       <Header />
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -127,7 +127,7 @@ const Artist = () => {
           imgSrc={item.imgSrc}
         />
       ))}
-    </div>
+    </>
   );
 };
 

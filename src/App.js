@@ -1,20 +1,20 @@
 import React from "react";
-import { BrowserRouter, Route } from 'react-router-dom'
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { BrowserRouter, Route } from "react-router-dom";
 import Artist from "./pages/artist";
 import Favorite from "./pages/favorite";
 import Home from "./pages/home";
 
 const App = () => {
   return (
-    <div>
+    <>
+      <CssBaseline />
       <BrowserRouter>
-        <div>
-          <Route path="/" exact component={Home} />
-          <Route path="/artist" component={Artist} />
-          <Route path="/favorite" component={Favorite} />
-        </div>
+        <Route path="/" exact component={Home} />
+        <Route path="/artist" component={Artist} />
+        <Route path="/favorite" component={Favorite} />
       </BrowserRouter>
-    </div>
+    </>
   );
 };
 

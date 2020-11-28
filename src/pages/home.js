@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Box from "@material-ui/core/Box";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import useStyles from "../styles/useStyles";
 import Header from "../header/header";
-
 import PropTypes from "prop-types";
-// import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-
 import Card from "../components/Card";
+
+const useStyles = makeStyles((theme) => ({
+  tabContainer: {
+    padding: 24,
+  },
+}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -24,7 +26,7 @@ function TabPanel(props) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <div>{children}</div>}
     </div>
   );
 }
@@ -70,22 +72,22 @@ const Home = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <Header />
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="シングル" />
-            <Tab label="アルバム" />
-          </Tabs>
-        </AppBar>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="シングル" />
+          <Tab label="アルバム" />
+        </Tabs>
+      </AppBar>
+      <div className={classes.tabContainer}>
         <TabPanel value={value} index={0} dir={theme.direction}>
           {releaseInfoKeys.map((item, index) => (
             <Card
@@ -105,7 +107,7 @@ const Home = () => {
           ))}
         </TabPanel>
       </div>
-    </div>
+    </>
   );
 };
 
