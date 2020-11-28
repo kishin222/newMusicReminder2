@@ -85,9 +85,7 @@ const Artist = () => {
           <Paper className={classes.paper}>
             <Grid container spacing={2} alignItems="center" justify="center">
               <Grid item>
-                <ButtonBase className={classes.image}>
-                  <img src={item.imgSrc} alt="img" height="100%" />
-                </ButtonBase>
+                <img src={item.imgSrc} alt="img" width="75" height="75" />
               </Grid>
               <Grid item xs={8} sm container>
                 <Grid item xs container direction="column" spacing={2}>
@@ -124,60 +122,11 @@ const Artist = () => {
         </Grid>
       </Grid>
       {artistsNoFavorite.map((item, index) => (
-        <CardActionArea
+        <RecommendArtistCard
           key={index}
-          onClick={() => {
-            //localStorageに新しいお気に入りアーティストをset
-            const artistsString = localStorage.getItem(`newMusicReminder`);
-            const artists = JSON.parse(artistsString);
-            const newArtists = [
-              ...artists,
-              {
-                name: item.name,
-                imgSrc: item.imgSrc,
-              },
-            ];
-            const newArtistsJson = JSON.stringify(newArtists);
-            localStorage.setItem("newMusicReminder", newArtistsJson);
-            //localStorageからお気に入りアーティストをget
-            //ここやり直し
-            // const lsArtistsString = localStorage.getItem("newMusicReminder")
-            // const artisistsFavorite = JSON.parse(lsArtistsString)
-            // const artisistsNoBlank = artisistsFavorite.filter(function (a) {
-            //   return a.name !== "";
-            // })
-            // artisistsUnique = artisistsNoBlank.reduce((a, v) => {
-            //   if (!a.some((e) => e.name === v.name)) {
-            //     a.push(v);
-            //   }
-            //   return a;
-            // }, [])
-          }}
-        >
-          <Paper className={classes.paper}>
-            <Grid container spacing={2} alignItems="center" justify="center">
-              <Grid item>
-                <img src={item.imgSrc} alt="img" height="100%" />
-              </Grid>
-              <Grid item xs={9} sm container>
-                <Grid item xs container direction="column" spacing={2}>
-                  <Grid item xs>
-                    <Typography variant="caption">
-                      <Box
-                        fontWeight="fontWeightBold"
-                        lineHeight={1.2}
-                        paddingBottom={0.5}
-                      >
-                        {item.name}
-                      </Box>
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <FavoriteBorderIcon></FavoriteBorderIcon>
-              </Grid>
-            </Grid>
-          </Paper>
-        </CardActionArea>
+          name={item.name}
+          imgSrc={item.imgSrc}
+        />
       ))}
     </>
   );

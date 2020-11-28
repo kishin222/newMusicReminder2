@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import Typography from "@material-ui/core/Typography";
-// import Grid from "@material-ui/core/Grid";
-// import Paper from "@material-ui/core/Paper";
-// import ButtonBase from "@material-ui/core/ButtonBase";
 import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -10,7 +6,7 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 import { useTheme } from "@material-ui/core/styles";
-import Card from "../Card";
+import Card from "../components/Card";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
