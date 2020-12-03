@@ -81,7 +81,7 @@ const Favorite = () => {
     releaseInfoFavoriteValidDate[releaseDate] =
       releaseInfoFavorite[releaseDate];
   });
-  const classes = useStyles();
+
   let noNewFavoriteArtistReleaseMessage;
   const validDate = Object.keys(releaseInfoFavoriteValidDate);
   if (validDate.length === 0) {

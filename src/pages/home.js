@@ -63,7 +63,6 @@ const Home = () => {
     getUser();
   }, []);
   const releaseInfoKeysAlbum = Object.keys(releaseInfoAlbum);
-  const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
