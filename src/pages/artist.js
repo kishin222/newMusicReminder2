@@ -9,6 +9,8 @@ import ClearIcon from "@material-ui/icons/Clear";
 import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 import RecommendArtistCard from "../components/RecommendArtistCard";
+import TabBar from "../components/TabBar";
+import ListContainer from "../components/ListContainer";
 
 const Artist = () => {
   const classes = useStyles();
@@ -68,65 +70,68 @@ const Artist = () => {
           </Typography>
         </Grid>
       </Grid>
-      {artisistsUnique.map((item, index) => (
-        <CardActionArea
-          key={index}
-          onClick={() => {
-            const artistsString = localStorage.getItem(`newMusicReminder`);
-            const artists = JSON.parse(artistsString);
-            const artisistsDeleted = artists.filter(function (a) {
-              return a.name !== item.name;
-            });
-            const newArtistsJson = JSON.stringify(artisistsDeleted);
-            localStorage.setItem("newMusicReminder", newArtistsJson);
-          }}
-        >
-          <Paper className={classes.paper}>
-            <Grid container spacing={2} alignItems="center" justify="center">
-              <Grid item>
-                <img src={item.imgSrc} alt="img" width="75" height="75" />
-              </Grid>
-              <Grid item xs={8} sm container>
-                <Grid item xs container direction="column" spacing={2}>
-                  <Grid item xs>
-                    <Typography variant="caption">
-                      <Box
-                        fontWeight="fontWeightBold"
-                        lineHeight={1.2}
-                        paddingBottom={0.5}
-                      >
-                        {item.name}
-                      </Box>
-                    </Typography>
+      <ListContainer>
+        {artisistsUnique.map((item, index) => (
+          <CardActionArea
+            key={index}
+            onClick={() => {
+              const artistsString = localStorage.getItem(`newMusicReminder`);
+              const artists = JSON.parse(artistsString);
+              const artisistsDeleted = artists.filter(function (a) {
+                return a.name !== item.name;
+              });
+              const newArtistsJson = JSON.stringify(artisistsDeleted);
+              localStorage.setItem("newMusicReminder", newArtistsJson);
+            }}
+          >
+            <Paper className={classes.paper}>
+              <Grid container spacing={2} alignItems="center" justify="center">
+                <Grid item>
+                  <img src={item.imgSrc} alt="img" width="75" height="75" />
+                </Grid>
+                <Grid item xs={8} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <Typography variant="caption">
+                        <Box
+                          fontWeight="fontWeightBold"
+                          lineHeight={1.2}
+                          paddingBottom={0.5}
+                        >
+                          {item.name}
+                        </Box>
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
+                <ClearIcon></ClearIcon>
               </Grid>
-              <ClearIcon></ClearIcon>
-            </Grid>
-          </Paper>
-        </CardActionArea>
-      ))}
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle2">
-            <Box
-              bgcolor="#f3f3f3"
-              p={2}
-              fontWeight="fontWeightBold"
-              padding={1}
-            >
-              おすすめアーティスト
-            </Box>
-          </Typography>
+            </Paper>
+          </CardActionArea>
+        ))}
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography variant="subtitle2">
+              <Box
+                bgcolor="#f3f3f3"
+                p={2}
+                fontWeight="fontWeightBold"
+                padding={1}
+              >
+                おすすめアーティスト
+              </Box>
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      {artistsNoFavorite.map((item, index) => (
-        <RecommendArtistCard
-          key={index}
-          name={item.name}
-          imgSrc={item.imgSrc}
-        />
-      ))}
+        {artistsNoFavorite.map((item, index) => (
+          <RecommendArtistCard
+            key={index}
+            name={item.name}
+            imgSrc={item.imgSrc}
+          />
+        ))}
+      </ListContainer>
+      <TabBar />
     </>
   );
 };

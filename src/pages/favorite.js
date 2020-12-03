@@ -3,14 +3,14 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 import { useTheme } from "@material-ui/core/styles";
 import Card from "../components/Card";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import PropTypes from "prop-types";
+import TabBar from "../components/TabBar";
+import ListContainer from "../components/ListContainer";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,16 +22,11 @@ function TabPanel(props) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <div>{children}</div>}
     </div>
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 const Favorite = () => {
   //localstorageが空の場合に空の文字列を作成
   if (!localStorage.getItem("newMusicReminder")) {
@@ -85,7 +80,7 @@ const Favorite = () => {
     releaseInfoFavoriteValidDate[releaseDate] =
       releaseInfoFavorite[releaseDate];
   });
-  const classes = useStyles();
+
   let noNewFavoriteArtistReleaseMessage;
   const validDate = Object.keys(releaseInfoFavoriteValidDate);
   if (validDate.length === 0) {
@@ -181,23 +176,25 @@ const Favorite = () => {
     setValue(newValue);
   };
   return (
-    <div>
+    <>
       <Header />
-      <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="シングル" />
-            <Tab label="アルバム" />
-          </Tabs>
-        </AppBar>
-        <TabPanel value={value} index={0} dir={theme.direction}>
+      {noArtistMessage}
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="シングル" />
+          <Tab label="アルバム" />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0} dir={theme.direction}>
+        <ListContainer>
+          {noNewFavoriteArtistReleaseMessage}
           {favoriteSongReleaseDates.map((item, index) => (
             <Card
               key={index}
@@ -205,8 +202,11 @@ const Favorite = () => {
               releaseInfo={releaseInfoFavoriteValidDate}
             ></Card>
           ))}
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        </ListContainer>
+      </TabPanel>
+      <TabPanel value={value} index={1} dir={theme.direction}>
+        <ListContainer>
+          {noNewFavoriteArtistReleaseMessageAlbum}
           {favoriteSongReleaseDatesAlbum.map((item, index) => (
             <Card
               key={index}
@@ -214,12 +214,11 @@ const Favorite = () => {
               releaseInfo={releaseInfoFavoriteValidDateAlbum}
             ></Card>
           ))}
-        </TabPanel>
-      </div>
-      {noArtistMessage}
-      {noNewFavoriteArtistReleaseMessage}
-      {noNewFavoriteArtistReleaseMessageAlbum}
-    </div>
+        </ListContainer>
+      </TabPanel>
+
+      <TabBar />
+    </>
   );
 };
 
