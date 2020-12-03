@@ -3,7 +3,6 @@ import Box from "@material-ui/core/Box";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import useStyles from "../styles/useStyles";
 import Header from "../header/header";
 import { useTheme } from "@material-ui/core/styles";
 import Card from "../components/Card";

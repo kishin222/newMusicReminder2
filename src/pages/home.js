@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Header from "../header/header";
 import PropTypes from "prop-types";
@@ -10,10 +9,6 @@ import Tab from "@material-ui/core/Tab";
 import Card from "../components/Card";
 import TabBar from "../components/TabBar";
 import ListContainer from "../components/ListContainer";
-
-const useStyles = makeStyles((theme) => ({
-  tabContainer: {},
-}));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
