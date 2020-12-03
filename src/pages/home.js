@@ -8,11 +8,11 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Card from "../components/Card";
+import TabBar from "../components/TabBar";
+import ListContainer from "../components/ListContainer";
 
 const useStyles = makeStyles((theme) => ({
-  tabContainer: {
-    padding: 24,
-  },
+  tabContainer: {},
 }));
 
 function TabPanel(props) {
@@ -87,8 +87,8 @@ const Home = () => {
           <Tab label="アルバム" />
         </Tabs>
       </AppBar>
-      <div className={classes.tabContainer}>
-        <TabPanel value={value} index={0} dir={theme.direction}>
+      <TabPanel value={value} index={0} dir={theme.direction}>
+        <ListContainer>
           {releaseInfoKeys.map((item, index) => (
             <Card
               key={index}
@@ -96,8 +96,10 @@ const Home = () => {
               releaseInfo={releaseInfo}
             ></Card>
           ))}
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        </ListContainer>
+      </TabPanel>
+      <TabPanel value={value} index={1} dir={theme.direction}>
+        <ListContainer>
           {releaseInfoKeysAlbum.map((item, index) => (
             <Card
               key={index}
@@ -105,8 +107,9 @@ const Home = () => {
               releaseInfo={releaseInfoAlbum}
             ></Card>
           ))}
-        </TabPanel>
-      </div>
+        </ListContainer>
+      </TabPanel>
+      <TabBar />
     </>
   );
 };
