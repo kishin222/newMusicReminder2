@@ -178,7 +178,7 @@ const Favorite = () => {
   return (
     <>
       <Header />
-
+      {noArtistMessage}
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -194,6 +194,7 @@ const Favorite = () => {
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
         <ListContainer>
+          {noNewFavoriteArtistReleaseMessage}
           {favoriteSongReleaseDates.map((item, index) => (
             <Card
               key={index}
@@ -205,6 +206,7 @@ const Favorite = () => {
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
         <ListContainer>
+          {noNewFavoriteArtistReleaseMessageAlbum}
           {favoriteSongReleaseDatesAlbum.map((item, index) => (
             <Card
               key={index}
@@ -215,9 +217,6 @@ const Favorite = () => {
         </ListContainer>
       </TabPanel>
 
-      {noArtistMessage}
-      {noNewFavoriteArtistReleaseMessage}
-      {noNewFavoriteArtistReleaseMessageAlbum}
       <TabBar />
     </>
   );
