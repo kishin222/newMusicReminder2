@@ -15,6 +15,21 @@ const About = () => {
       </Box>
       <Typography variant='h4' align='center' className={classes.textGray}><br/></Typography>
       <Box align='center'>
+        <Button
+          className={classes.greenButton}
+          p={2}
+          padding={1}
+          align='center'
+        >
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Typography variant='h5' className={classes.textWhite}>
+              さあ、すぐに始めよう
+            </Typography>
+          </Link>
+        </Button>
+      </Box>
+      <Typography variant='h4' align='center' className={classes.textGray}><br/></Typography>
+      <Box align='center'>
         <img src="/screenShot.png" alt="img" width="300"/>
       </Box>
       <Typography variant='body2' align='center'className={classes.textGray}>
