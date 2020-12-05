@@ -23,6 +23,20 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     maxHeight: "100%",
   },
+  textGray: {
+    color: "#5E5E5E",
+    fontFamily: ["ヒラギノ角ゴ ProN"],
+    margin: 20,
+  },
+  greenButton: {
+    backgroundColor: "#1ED860",
+    fontFamily: ["ヒラギノ角ゴ ProN"],
+  },
+  textWhite: {
+    color: "#FFFFFF",
+    fontFamily: ["ヒラギノ角ゴ ProN"],
+    padding: 10,    
+  }
 }));
 
 export default useStyles;
