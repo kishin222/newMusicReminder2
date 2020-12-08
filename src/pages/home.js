@@ -9,9 +9,6 @@ import Tab from "@material-ui/core/Tab";
 import Card from "../components/Card";
 import TabBar from "../components/TabBar";
 import ListContainer from "../components/ListContainer";
-import Typography from '@material-ui/core/Typography';
-import useStyles from "../styles/useStyles";
-import { Link } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -35,7 +32,6 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 const Home = () => {
-  const classes = useStyles();
   //シングル
   const [releaseInfo, setReleaseInfo] = useState({});
   useEffect(() => {
@@ -72,11 +68,6 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Link to="/about" >
-        <Typography variant='body1' className={classes.textGray} align='center'>
-          LISNAとは
-        </Typography>
-      </Link>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
