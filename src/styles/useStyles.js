@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -7,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: grey[700]
   },
   paper: {
     padding: theme.spacing(2),
