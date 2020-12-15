@@ -11,9 +11,37 @@ import Header from "../header/header";
 import RecommendArtistCard from "../components/RecommendArtistCard";
 import TabBar from "../components/TabBar";
 import ListContainer from "../components/ListContainer";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import PropTypes from "prop-types";
+import AppBar from "@material-ui/core/AppBar";
+import { useTheme } from "@material-ui/core/styles";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && <div>{children}</div>}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
 
 const Artist = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const [artistList, setArtistList] = useState([]);
   useEffect(() => {
     const getUser = async () => {
@@ -53,23 +81,28 @@ const Artist = () => {
     });
     return favoriteArtistsName.every((name) => name !== artistsArray.name);
   });
-  return (
-    <>
-      <Header />
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant="subtitle2">
-            <Box
-              bgcolor="#f3f3f3"
-              p={2}
-              fontWeight="fontWeightBold"
-              padding={1}
-            >
-              お気に入りアーティスト
-            </Box>
-          </Typography>
-        </Grid>
-      </Grid>
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  const [value, setValue] = React.useState(0);  
+
+return (
+  <>
+    <Header />
+    <AppBar position="static" color="default">
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="fullWidth"
+        aria-label="full width tabs example"
+      >
+        <Tab label="お気に入り" />
+        <Tab label="その他" />
+      </Tabs>
+    </AppBar>
+    <TabPanel value={value} index={0} dir={theme.direction}>
       <ListContainer>
         {artisistsUnique.map((item, index) => (
           <CardActionArea
@@ -109,20 +142,10 @@ const Artist = () => {
             </Paper>
           </CardActionArea>
         ))}
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography variant="subtitle2">
-              <Box
-                bgcolor="#f3f3f3"
-                p={2}
-                fontWeight="fontWeightBold"
-                padding={1}
-              >
-                おすすめアーティスト
-              </Box>
-            </Typography>
-          </Grid>
-        </Grid>
+      </ListContainer>
+    </TabPanel>
+    <TabPanel value={value} index={1} dir={theme.direction}>
+      <ListContainer>
         {artistsNoFavorite.map((item, index) => (
           <RecommendArtistCard
             key={index}
@@ -131,9 +154,9 @@ const Artist = () => {
           />
         ))}
       </ListContainer>
-      <TabBar />
-    </>
-  );
+    </TabPanel>
+    <TabBar />
+  </>
+);
 };
-
 export default Artist;
