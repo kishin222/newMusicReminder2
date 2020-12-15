@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
     fontFamily: ["ヒラギノ角ゴ ProN"],
     padding: 10,    
+  },
+  searchBox: {
+    backgroundColor: theme.palette.background.paper,
+    margin: 10,
   }
 }));
 

@@ -16,7 +16,16 @@ import Tab from "@material-ui/core/Tab";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import { useTheme } from "@material-ui/core/styles";
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
 
+const useStyles2 = makeStyles((theme) => ({
+  textField: {
+    width: "100%",
+  },
+
+}));
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -41,6 +50,8 @@ TabPanel.propTypes = {
 
 const Artist = () => {
   const classes = useStyles();
+  const classes2 = useStyles2();
+
   const theme = useTheme();
   const [artistList, setArtistList] = useState([]);
   useEffect(() => {
@@ -89,6 +100,9 @@ const Artist = () => {
 return (
   <>
     <Header />
+    <form className={classes.searchBox} noValidate autoComplete="off" >
+      <TextField className={classes2.textField} id="outlined-basic" label="アーティストを検索" variant="outlined" />
+    </form>
     <AppBar position="static" color="default">
       <Tabs
         value={value}

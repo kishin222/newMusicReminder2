@@ -25,7 +25,7 @@ const Header = () => {
     <AppBar position="static">
       <Box bgcolor="#FFF">
         <Toolbar className={classes.container}>
-        <Typography variant="h6" >"  "</Typography>
+          <Typography variant="h6" >"  "</Typography>
           <Typography variant="h6" className={classes.appTitle}>
             <Link to="/" style={{ textDecoration: "none", color: grey[800]  }} >
               <img src="/lisna_logo_v3.png" alt="img" width="20"></img> LISNA
