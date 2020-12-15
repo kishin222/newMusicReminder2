@@ -18,7 +18,6 @@ import AppBar from "@material-ui/core/AppBar";
 import { useTheme } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles2 = makeStyles((theme) => ({
   textField: {
@@ -92,85 +91,90 @@ const Artist = () => {
     });
     return favoriteArtistsName.every((name) => name !== artistsArray.name);
   });
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = aristSearchingWord => {
+    setValue(aristSearchingWord);
+  };
+  //次ここ★
+  const [artistSearchInput, setArtistSearchInput] = useState([]);
+  const handleArtistSearchInputChange = (event, newValue) => {
+    setArtistSearchInput(newValue);
   };
   const [value, setValue] = React.useState(0);  
-
-return (
-  <>
-    <Header />
-    <form className={classes.searchBox} noValidate autoComplete="off" >
-      <TextField className={classes2.textField} id="outlined-basic" label="アーティストを検索" variant="outlined" />
-    </form>
-    <AppBar position="static" color="default">
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
-        variant="fullWidth"
-        aria-label="full width tabs example"
-      >
-        <Tab label="お気に入り" />
-        <Tab label="その他" />
-      </Tabs>
-    </AppBar>
-    <TabPanel value={value} index={0} dir={theme.direction}>
-      <ListContainer>
-        {artisistsUnique.map((item, index) => (
-          <CardActionArea
-            key={index}
-            onClick={() => {
-              const artistsString = localStorage.getItem(`newMusicReminder`);
-              const artists = JSON.parse(artistsString);
-              const artisistsDeleted = artists.filter(function (a) {
-                return a.name !== item.name;
-              });
-              const newArtistsJson = JSON.stringify(artisistsDeleted);
-              localStorage.setItem("newMusicReminder", newArtistsJson);
-            }}
-          >
-            <Paper className={classes.paper}>
-              <Grid container spacing={2} alignItems="center" justify="center">
-                <Grid item>
-                  <img src={item.imgSrc} alt="img" width="75" height="75" />
-                </Grid>
-                <Grid item xs={8} sm container>
-                  <Grid item xs container direction="column" spacing={2}>
-                    <Grid item xs>
-                      <Typography variant="caption">
-                        <Box
-                          fontWeight="fontWeightBold"
-                          lineHeight={1.2}
-                          paddingBottom={0.5}
-                        >
-                          {item.name}
-                        </Box>
-                      </Typography>
+  console.log(artistSearchInput)
+  return (
+    <>
+      <Header />
+      <form className={classes.searchBox} noValidate autoComplete="off" >
+        <TextField className={classes2.textField} id="outlined-basic" label="アーティストを検索" variant="outlined" value={artistSearchInput} onChange={aristSearchingWord => handleArtistSearchInputChange(aristSearchingWord)}/>
+      </form>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="お気に入り" />
+          <Tab label="その他" />
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0} dir={theme.direction}>
+        <ListContainer>
+          {artisistsUnique.map((item, index) => (
+            <CardActionArea
+              key={index}
+              onClick={() => {
+                const artistsString = localStorage.getItem(`newMusicReminder`);
+                const artists = JSON.parse(artistsString);
+                const artisistsDeleted = artists.filter(function (a) {
+                  return a.name !== item.name;
+                });
+                const newArtistsJson = JSON.stringify(artisistsDeleted);
+                localStorage.setItem("newMusicReminder", newArtistsJson);
+              }}
+            >
+              <Paper className={classes.paper}>
+                <Grid container spacing={2} alignItems="center" justify="center">
+                  <Grid item>
+                    <img src={item.imgSrc} alt="img" width="75" height="75" />
+                  </Grid>
+                  <Grid item xs={8} sm container>
+                    <Grid item xs container direction="column" spacing={2}>
+                      <Grid item xs>
+                        <Typography variant="caption">
+                          <Box
+                            fontWeight="fontWeightBold"
+                            lineHeight={1.2}
+                            paddingBottom={0.5}
+                          >
+                            {item.name}
+                          </Box>
+                        </Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
+                  <ClearIcon></ClearIcon>
                 </Grid>
-                <ClearIcon></ClearIcon>
-              </Grid>
-            </Paper>
-          </CardActionArea>
-        ))}
-      </ListContainer>
-    </TabPanel>
-    <TabPanel value={value} index={1} dir={theme.direction}>
-      <ListContainer>
-        {artistsNoFavorite.map((item, index) => (
-          <RecommendArtistCard
-            key={index}
-            name={item.name}
-            imgSrc={item.imgSrc}
-          />
-        ))}
-      </ListContainer>
-    </TabPanel>
-    <TabBar />
-  </>
-);
+              </Paper>
+            </CardActionArea>
+          ))}
+        </ListContainer>
+      </TabPanel>
+      <TabPanel value={value} index={1} dir={theme.direction}>
+        <ListContainer>
+          {artistsNoFavorite.map((item, index) => (
+            <RecommendArtistCard
+              key={index}
+              name={item.name}
+              imgSrc={item.imgSrc}
+            />
+          ))}
+        </ListContainer>
+      </TabPanel>
+      <TabBar />
+    </>
+  );
 };
 export default Artist;
